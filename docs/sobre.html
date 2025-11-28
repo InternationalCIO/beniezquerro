@@ -164,15 +164,68 @@
             margin-bottom: 0.75rem;
         }
 
+        .title-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
         .page-title {
             font-size: clamp(2rem, 3.5vw, 2.8rem);
             font-weight: 200;
             line-height: 1.1;
-            margin-bottom: 1rem;
             background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+        }
+
+        /* Podcast mini player */
+        .podcast-mini {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 0.4rem 0.75rem 0.4rem 0.5rem;
+            flex-shrink: 0;
+            margin-top: 0.3rem;
+        }
+
+        .podcast-mini-btn {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .podcast-mini-btn:hover {
+            background: rgba(255,255,255,0.25);
+        }
+
+        .podcast-mini-btn svg {
+            width: 10px;
+            height: 10px;
+        }
+
+        .podcast-mini-label {
+            font-size: 0.6rem;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 0.05em;
+        }
+
+        .podcast-mini-time {
+            font-size: 0.55rem;
+            color: rgba(255,255,255,0.4);
         }
 
         .about-text {
@@ -288,81 +341,6 @@
 
         .contact-link:hover::after {
             width: 100%;
-        }
-
-        /* === PODCAST === */
-        .podcast-section {
-            margin-top: 1.5rem;
-            padding-top: 1.25rem;
-            border-top: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .podcast-player {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
-            padding: 0.75rem 1rem;
-            transition: background 0.3s;
-        }
-
-        .podcast-player:hover {
-            background: rgba(255,255,255,0.08);
-        }
-
-        .podcast-play-btn {
-            width: 36px;
-            height: 36px;
-            border: none;
-            background: rgba(255,255,255,0.15);
-            border-radius: 50%;
-            color: #fff;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
-            flex-shrink: 0;
-        }
-
-        .podcast-play-btn:hover {
-            background: rgba(255,255,255,0.25);
-            transform: scale(1.05);
-        }
-
-        .podcast-play-btn svg {
-            width: 14px;
-            height: 14px;
-        }
-
-        .podcast-info {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .podcast-label {
-            font-size: 0.5rem;
-            font-weight: 500;
-            letter-spacing: 0.2em;
-            text-transform: uppercase;
-            color: rgba(255,255,255,0.35);
-            margin-bottom: 0.15rem;
-        }
-
-        .podcast-title {
-            font-size: 0.78rem;
-            font-weight: 300;
-            color: rgba(255,255,255,0.85);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .podcast-time {
-            font-size: 0.65rem;
-            color: rgba(255,255,255,0.4);
-            flex-shrink: 0;
         }
 
         audio {
@@ -744,7 +722,23 @@
             <!-- LADO DERECHO: INFO -->
             <div class="info-side">
                 <span class="intro-label" data-i18n="introLabel">Sobre mí</span>
-                <h1 class="page-title">María Beni<br>Ezquerro</h1>
+                <div class="title-row">
+                    <h1 class="page-title">María Beni<br>Ezquerro</h1>
+                    <div class="podcast-mini">
+                        <button class="podcast-mini-btn" id="podcast-play-btn">
+                            <svg id="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon points="5,3 19,12 5,21"></polygon>
+                            </svg>
+                            <svg id="pause-icon" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+                                <rect x="6" y="4" width="4" height="16"></rect>
+                                <rect x="14" y="4" width="4" height="16"></rect>
+                            </svg>
+                        </button>
+                        <span class="podcast-mini-label" data-i18n="podcastLabel">Escucha</span>
+                        <span class="podcast-mini-time" id="podcast-time">0:00</span>
+                    </div>
+                    <audio id="podcast-audio" src="podcast/podcast.m4a" preload="metadata"></audio>
+                </div>
 
                 <p class="about-text" data-i18n="aboutText">
                     Aborda la arquitectura combinando la práctica espacial, la investigación crítica
@@ -788,26 +782,6 @@
                     </div>
                 </div>
 
-                <!-- Podcast -->
-                <div class="podcast-section">
-                    <div class="podcast-player">
-                        <button class="podcast-play-btn" id="podcast-play-btn">
-                            <svg id="play-icon" viewBox="0 0 24 24" fill="currentColor">
-                                <polygon points="5,3 19,12 5,21"></polygon>
-                            </svg>
-                            <svg id="pause-icon" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
-                                <rect x="6" y="4" width="4" height="16"></rect>
-                                <rect x="14" y="4" width="4" height="16"></rect>
-                            </svg>
-                        </button>
-                        <div class="podcast-info">
-                            <div class="podcast-label" data-i18n="podcastLabel">Escucha</div>
-                            <div class="podcast-title" data-i18n="podcastTitle">Conversación sobre arquitectura</div>
-                        </div>
-                        <span class="podcast-time" id="podcast-time">0:00</span>
-                    </div>
-                    <audio id="podcast-audio" src="podcast/podcast.m4a" preload="metadata"></audio>
-                </div>
             </div>
         </div>
 
