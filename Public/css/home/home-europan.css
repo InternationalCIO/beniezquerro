@@ -1,0 +1,78 @@
+/* ================================================================
+   BENIEZQUERRO - TEMA: EUROPAN 15
+   Sant Climent de Llobregat, 2020 · Mención Especial
+
+   Ciudades Productivas / Cambio de metabolismo territorial
+   ================================================================ */
+
+.home-container {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.2) 0%,
+            rgba(30, 60, 90, 0.1) 50%,
+            rgba(30, 60, 90, 0.5) 100%
+        ),
+        url('../../images/europan.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.overlay {
+    background: radial-gradient(
+        ellipse at center,
+        transparent 30%,
+        rgba(30, 60, 90, 0.2) 100%
+    );
+}
+
+.logo {
+    color: #1E3C5A;
+    text-shadow:
+        0 2px 15px rgba(255, 255, 255, 0.95),
+        0 0 30px rgba(255, 255, 255, 0.7);
+}
+
+.prompt-wrapper {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(30, 60, 90, 0.1);
+}
+
+.circle-icon {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.circle-label {
+    color: #ffffff;
+    text-shadow: 0 2px 6px rgba(30, 60, 90, 0.6);
+}
+
+.proyecto-info {
+    color: #ffffff;
+}
+
+.proyecto-premio {
+    /* Azul territorial */
+    color: #4A90A4;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.nav-dot.active {
+    background: #4A90A4;
+    border-color: #4A90A4;
+}
+
+/* Selector idioma adaptado */
+.lang-selector {
+    background: rgba(30, 60, 90, 0.2);
+}
+
+.lang-btn {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.lang-btn.active {
+    background: rgba(255, 255, 255, 0.95);
+    color: #1E3C5A;
+}

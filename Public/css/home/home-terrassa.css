@@ -1,0 +1,62 @@
+/* ================================================================
+   BENIEZQUERRO - TEMA: 37 VIVIENDAS TERRASSA
+   Terrassa, 2021 · 1er Premio INCASÒL
+
+   "5patis+1" — Vivienda protegida con vocación colectiva
+   ================================================================ */
+
+.home-container {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.15) 0%,
+            rgba(0, 0, 0, 0.05) 50%,
+            rgba(0, 0, 0, 0.35) 100%
+        ),
+        url('../../images/terrassa.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.overlay {
+    background: radial-gradient(
+        ellipse at center,
+        transparent 40%,
+        rgba(0, 0, 0, 0.15) 100%
+    );
+}
+
+.logo {
+    color: #1a1a1a;
+    text-shadow:
+        0 2px 15px rgba(255, 255, 255, 0.9),
+        0 0 30px rgba(255, 255, 255, 0.6);
+}
+
+.prompt-wrapper {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.circle-icon {
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.circle-label {
+    color: #ffffff;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+
+.proyecto-info {
+    color: #ffffff;
+}
+
+.proyecto-premio {
+    color: #6B8E6F;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.nav-dot.active {
+    background: #6B8E6F;
+    border-color: #6B8E6F;
+}

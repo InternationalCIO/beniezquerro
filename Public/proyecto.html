@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto | BENI EZQUERRO</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-texto: #1a1a1a;
+            --color-blanco: #ffffff;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: var(--font-body);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ============================================
+           LAYOUT PRINCIPAL
+           ============================================ */
+
+        .proyecto-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Fondo con imagen */
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-position: center;
+            transition: opacity 0.5s ease;
+        }
+
+        .bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                90deg,
+                transparent 0%,
+                transparent 50%,
+                rgba(0,0,0,0.3) 100%
+            );
+        }
+
+        /* ============================================
+           CONTENIDO PRINCIPAL (foto + pastilla)
+           ============================================ */
+
+        .main-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding: 2rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Pastilla de información */
+        .info-pill {
+            background: rgba(0,0,0,0.75);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 380px;
+            color: var(--color-blanco);
+        }
+
+        .info-tipo {
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            opacity: 0.7;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-titulo {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 500;
+            line-height: 1.2;
+            margin-bottom: 0.5rem;
+        }
+
+        .info-lugar {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-premio {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #6B8E6F;
+            margin-bottom: 1.25rem;
+        }
+
+        .info-descripcion {
+            font-size: 0.85rem;
+            line-height: 1.7;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Navegación de fotos */
+        .foto-nav {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .foto-arrow {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            color: var(--color-blanco);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .foto-arrow:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .foto-counter {
+            font-size: 0.8rem;
+            opacity: 0.7;
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .foto-zoom {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            color: var(--color-blanco);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .foto-zoom:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Lightbox */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 44px;
+            height: 44px;
+            border: none;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* ============================================
+           ZONA INFERIOR (selector + prompt)
+           ============================================ */
+
+        .bottom-zone {
+            position: relative;
+            z-index: 20;
+            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
+            padding-top: 0.5rem;
+            padding-bottom: 10vh;
+        }
+
+        /* Selector de proyectos (fuera del prompt) */
+        .proyecto-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            position: relative;
+        }
+
+        .proy-arrow {
+            width: 28px;
+            height: 28px;
+            border: none;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            color: rgba(255,255,255,0.8);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .proy-arrow:hover {
+            background: rgba(255,255,255,0.25);
+            color: #fff;
+        }
+
+        .proy-nombre {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.4rem 0.6rem;
+            border: none;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            color: rgba(255,255,255,0.9);
+            font-family: var(--font-body);
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .proy-nombre:hover {
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+        }
+
+        .proy-nombre svg {
+            opacity: 0.6;
+            transition: transform 0.2s;
+        }
+
+        .proy-nombre.open svg {
+            transform: rotate(180deg);
+        }
+
+        .proy-menu {
+            position: absolute;
+            bottom: 100%;
+            right: 0;
+            margin-bottom: 0.5rem;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+            min-width: 200px;
+            padding: 0.5rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: all 0.2s ease;
+        }
+
+        .proy-menu.open {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .proy-menu-item {
+            display: block;
+            width: 100%;
+            padding: 0.6rem 0.75rem;
+            border: none;
+            background: transparent;
+            color: #333;
+            font-family: var(--font-body);
+            font-size: 0.8rem;
+            text-align: left;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.15s;
+        }
+
+        .proy-menu-item:hover {
+            background: rgba(0,0,0,0.05);
+        }
+
+        .proy-menu-item.active {
+            background: rgba(107, 142, 111, 0.15);
+            color: #3D5A3D;
+            font-weight: 500;
+        }
+
+        /* Zona de respuesta */
+        .response-zone {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 500px;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            color: rgba(255,255,255,0.9);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        .response-zone.visible {
+            opacity: 1;
+        }
+
+        /* Prompt */
+        .prompt-zone {
+            position: relative;
+            padding: 0.6rem 1.5rem 0.85rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .prompt-zone .footer-row {
+            position: absolute;
+            bottom: -1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .prompt-zone .seccion-label {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .prompt-zone .proyecto-nav {
+        }
+
+        .prompt-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 95%;
+            max-width: 750px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 50px;
+            padding: 0.5rem 1rem 0.5rem 1.5rem;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+        }
+
+        .menu-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+            flex-shrink: 0;
+        }
+
+        .menu-btn:hover {
+            background: rgba(0,0,0,0.04);
+        }
+
+        .menu-icon {
+            display: block;
+            width: 16px;
+            height: 1.5px;
+            background: #666;
+            position: relative;
+        }
+
+        .menu-icon::before,
+        .menu-icon::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 1.5px;
+            background: #666;
+            left: 0;
+        }
+
+        .menu-icon::before { top: -5px; }
+        .menu-icon::after { bottom: -5px; }
+
+        .prompt-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: var(--color-texto);
+            padding: 0.5rem 0;
+            outline: none;
+        }
+
+        .prompt-input::placeholder {
+            color: #aaa;
+        }
+
+        .voice-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: #aaa;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .voice-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .voice-btn:hover {
+            background: rgba(0,0,0,0.04);
+            color: #666;
+        }
+
+        .lang-selector {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin-left: 0.5rem;
+            padding-left: 0.75rem;
+            border-left: 1px solid rgba(0,0,0,0.08);
+            flex-shrink: 0;
+        }
+
+        .lang-btn {
+            padding: 0.4rem 0.5rem;
+            border: none;
+            background: transparent;
+            color: #bbb;
+            font-family: var(--font-body);
+            font-size: 0.6rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn:hover {
+            color: #666;
+        }
+
+        .lang-btn.active {
+            color: var(--color-texto);
+            font-weight: 500;
+        }
+
+        /* ============================================
+           SIDEBAR MENU
+           ============================================ */
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 320px;
+            height: 100%;
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transform: translateX(-100%);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .sidebar-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar-header {
+            padding: 2.5rem 2rem 2rem;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .sidebar-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            color: #ffffff;
+            text-decoration: none;
+            line-height: 1.2;
+            text-shadow: 0 0 20px rgba(255,255,255,0.1);
+        }
+
+        .sidebar-title:hover {
+            color: #E86A33;
+        }
+
+        .sidebar-close {
+            width: 32px;
+            height: 32px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: transparent;
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.6);
+            cursor: pointer;
+            border-radius: 50%;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-close:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.4);
+            color: var(--color-blanco);
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-link {
+            padding: 1rem 0;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 0.02em;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .sidebar-link::before {
+            content: '';
+            width: 0;
+            height: 1px;
+            background: #E86A33;
+            transition: width 0.3s;
+        }
+
+        .sidebar-link:hover {
+            color: var(--color-blanco);
+            padding-left: 0.5rem;
+        }
+
+        .sidebar-link:hover::before {
+            width: 20px;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: transparent;
+            margin: 0.5rem 0;
+        }
+
+        .sidebar-footer {
+            padding: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .sidebar-tagline {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+            font-style: italic;
+            letter-spacing: 0.03em;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+
+        @media (max-width: 768px) {
+            .main-content {
+                align-items: flex-end;
+                padding: 1rem;
+                padding-bottom: 1rem;
+            }
+
+            .info-pill {
+                max-width: 100%;
+                padding: 1.5rem;
+            }
+
+            .info-titulo {
+                font-size: 1.4rem;
+            }
+
+            .proyecto-selector {
+                padding: 0.5rem 1rem;
+            }
+
+            .selector-btn {
+                font-size: 0.75rem;
+                padding: 0.4rem 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="proyecto-container">
+
+        <!-- Fondo con imagen -->
+        <div class="bg-image" id="bg-image"></div>
+        <div class="bg-overlay"></div>
+
+        <!-- Contenido principal -->
+        <div class="main-content">
+            <div class="info-pill">
+                <p class="info-tipo" id="info-tipo">Obra</p>
+                <h1 class="info-titulo" id="info-titulo">37 Viviendas de alquiler asequible</h1>
+                <p class="info-lugar" id="info-lugar">Terrassa · 2021</p>
+                <p class="info-premio" id="info-premio">1er Premio INCASÒL</p>
+                <p class="info-descripcion" id="info-descripcion">
+                    Proyecto de 37 viviendas de alquiler asequible promovido por INCASÒL.
+                    La propuesta "5patis+1" plantea una vivienda protegida con vocación colectiva,
+                    organizando las viviendas en torno a patios que favorecen la vida comunitaria.
+                </p>
+                <div class="foto-nav">
+                    <button class="foto-arrow" onclick="cambiarFoto(-1)">‹</button>
+                    <span class="foto-counter" id="foto-counter">1 / 6</span>
+                    <button class="foto-arrow" onclick="cambiarFoto(1)">›</button>
+                    <button class="foto-zoom" onclick="abrirLightbox()" title="Ver imagen completa">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                            <path d="M11 8v6M8 11h6"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Lightbox -->
+        <div class="lightbox" id="lightbox">
+            <button class="lightbox-close" onclick="cerrarLightbox()">×</button>
+            <img class="lightbox-img" id="lightbox-img" src="" alt="Imagen ampliada">
+        </div>
+
+        <!-- Zona inferior -->
+        <div class="bottom-zone">
+            <!-- Respuesta -->
+            <div class="response-zone" id="response-zone"></div>
+
+            <!-- Prompt -->
+            <div class="prompt-zone">
+                <div class="prompt-wrapper">
+                    <button class="menu-btn" id="menu-btn" aria-label="Menú">
+                        <span class="menu-icon"></span>
+                    </button>
+                    <input
+                        type="text"
+                        class="prompt-input"
+                        id="prompt-input"
+                        placeholder="¿Pasamos a la siguiente foto?"
+                        autocomplete="off"
+                    >
+                    <button class="voice-btn" aria-label="Voz">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                        </svg>
+                    </button>
+                    <div class="lang-selector">
+                        <button class="lang-btn active" data-lang="es" onclick="cambiarIdioma('es')">ES</button>
+                        <button class="lang-btn" data-lang="en" onclick="cambiarIdioma('en')">EN</button>
+                        <button class="lang-btn" data-lang="cat" onclick="cambiarIdioma('cat')">CAT</button>
+                    </div>
+                </div>
+                <div class="footer-row">
+                    <span class="seccion-label" id="seccion-label">Beni Ezquerro · Obra</span>
+                    <div class="proyecto-nav">
+                        <button class="proy-arrow" onclick="cambiarProyecto(currentProyecto - 1)">‹</button>
+                        <button class="proy-nombre" id="proy-nombre" onclick="toggleProyectoMenu()">
+                            <span id="proy-nombre-text">37 Viviendas</span>
+                            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="m18 15-6-6-6 6"/>
+                            </svg>
+                        </button>
+                        <button class="proy-arrow" onclick="cambiarProyecto(currentProyecto + 1)">›</button>
+                        <div class="proy-menu" id="proy-menu"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="sidebar-title">Beni<br>Ezquerro</a>
+                <button class="sidebar-close" id="sidebar-close">×</button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="index.html" class="sidebar-link">Inicio</a>
+                <a href="proyecto.html" class="sidebar-link">Obra</a>
+                <a href="investigacion.html" class="sidebar-link">Investigación</a>
+                <a href="clientes.html" class="sidebar-link">Clientes</a>
+                <div class="sidebar-divider"></div>
+                <a href="sobre.html" class="sidebar-link">Sobre mí</a>
+            </nav>
+            <div class="sidebar-footer">
+                <p class="sidebar-tagline">Práctica, investigación y docencia</p>
+            </div>
+        </aside>
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    </div>
+
+    <script>
+        // ================================================================
+        // DATOS DE PROYECTOS
+        // ================================================================
+
+        let currentLang = localStorage.getItem('lang') || 'es';
+
+        const PROYECTOS = [
+            {
+                id: 'terrassa',
+                imagenes: [
+                    'images/proyectos/terrasa_6.png',
+                    'images/proyectos/terrasa_1.jpg',
+                    'images/proyectos/terrasa_4.jpg',
+                    'images/proyectos/terrasa_2.jpg',
+                    'images/proyectos/terrasa_3.jpg',
+                    'images/proyectos/terrasa_5.png'
+                ],
+                tipo: { es: 'Obra', en: 'Work', cat: 'Obra' },
+                titulo: {
+                    es: '37 Viviendas de alquiler asequible',
+                    en: '37 Affordable Housing Units',
+                    cat: '37 Habitatges de lloguer assequible'
+                },
+                nombreCorto: {
+                    es: '37 Viviendas Terrassa',
+                    en: '37 Housing Terrassa',
+                    cat: '37 Habitatges Terrassa'
+                },
+                lugar: { es: 'Terrassa · 2021', en: 'Terrassa · 2021', cat: 'Terrassa · 2021' },
+                premio: { es: '1er Premio INCASÒL', en: '1st Prize INCASÒL', cat: '1r Premi INCASÒL' },
+                descripciones: [
+                    {
+                        es: 'El edificio formará parte de un nuevo sector de desarrollo urbano próximo al patrimonio industrial del Vapor Cortés, en una zona con tipología heredera de la casa de cos, estrecha y de grano pequeño.',
+                        en: 'The building will be part of a new urban development sector near the industrial heritage of Vapor Cortés, in an area with a typology inherited from the casa de cos, narrow and small-grained.',
+                        cat: 'L\'edifici formarà part d\'un nou sector de desenvolupament urbà proper al patrimoni industrial del Vapor Cortés, en una zona amb tipologia hereva de la casa de cos, estreta i de gra petit.'
+                    },
+                    {
+                        es: 'La fachada refleja esa crujía estrecha mediante planos que se adelantan y retrasan, apareciendo y desapareciendo a través de las persianas, generando un ritmo que recuerda a pequeñas viviendas adosadas.',
+                        en: 'The facade reflects that narrow bay through planes that advance and recede, appearing and disappearing through the blinds, generating a rhythm reminiscent of small row houses.',
+                        cat: 'La façana reflecteix aquella crugia estreta mitjançant plans que s\'avancen i retreuen, apareixent i desapareixent a través de les persianes, generant un ritme que recorda petits habitatges adossats.'
+                    },
+                    {
+                        es: 'La estrategia principal: 7 patios que perforan un bloque de PB+3 para encajar 37 viviendas de 2 habitaciones. Estos patios permiten convertir en pasantes pisos que no lo son.',
+                        en: 'The main strategy: 7 courtyards that perforate a ground+3 block to fit 37 two-bedroom dwellings. These courtyards allow converting non-through apartments into through ones.',
+                        cat: 'L\'estratègia principal: 7 patis que perforen un bloc de PB+3 per encaixar 37 habitatges de 2 habitacions. Aquests patis permeten convertir en passants pisos que no ho són.'
+                    },
+                    {
+                        es: 'El corredor o espina central se expande y comprime con la secuencia de patios, generando claroscuros que enriquecen el recorrido interior iluminado y ventilado.',
+                        en: 'The corridor or central spine expands and compresses with the sequence of courtyards, creating chiaroscuros that enrich the illuminated and ventilated interior journey.',
+                        cat: 'El corredor o espina central s\'expandeix i comprimeix amb la seqüència de patis, generant clarobscurs que enriqueixen el recorregut interior il·luminat i ventilat.'
+                    },
+                    {
+                        es: 'La vivienda se organiza en dos franjas: servicios (cojín respecto a la pasarela) y espacios íntimos. Una pieza central pasante (estar-comedor) sobresale logrando dobles orientaciones.',
+                        en: 'The dwelling is organized in two strips: services (buffer to the walkway) and intimate spaces. A central through-piece (living-dining) protrudes achieving dual orientations.',
+                        cat: 'L\'habitatge s\'organitza en dues franges: serveis (coixí respecte a la passarel·la) i espais íntims. Una peça central passant (estar-menjador) sobresurt aconseguint dobles orientacions.'
+                    },
+                    {
+                        es: 'Dormitorios de proporciones regulares permiten usos flexibles. La cocina, doblemente ventilada por los patios, puede abrirse o no al comedor. Todas las tipologías disponen de espacio exterior.',
+                        en: 'Regular-proportion bedrooms allow flexible uses. The kitchen, doubly ventilated by the courtyards, can be open or closed to the dining room. All typologies have outdoor space.',
+                        cat: 'Dormitoris de proporcions regulars permeten usos flexibles. La cuina, doblement ventilada pels patis, pot obrir-se o no al menjador. Totes les tipologies disposen d\'espai exterior.'
+                    }
+                ],
+                colorPremio: '#6B8E6F',
+                bienvenida: {
+                    es: 'Bienvenido al proyecto de Terrassa. Pregúntame lo que quieras saber.',
+                    en: 'Welcome to the Terrassa project. Ask me anything you want to know.',
+                    cat: 'Benvingut al projecte de Terrassa. Pregunta\'m el que vulguis saber.'
+                },
+                saludo: {
+                    es: '¡Hola! Este proyecto de 37 viviendas organiza los espacios en torno a patios que fomentan la vida comunitaria.',
+                    en: 'Hi! This 37-unit housing project organizes spaces around courtyards that foster community life.',
+                    cat: 'Hola! Aquest projecte de 37 habitatges organitza els espais al voltant de patis que fomenten la vida comunitària.'
+                }
+            },
+            {
+                id: 'vidaquotidiana',
+                imagenes: [
+                    'images/proyectos/6vida_cotidiana_15.jpg',
+                    'images/proyectos/Vida_cotidiana_1.jpg',
+                    'images/proyectos/vida_cotidiana_2.jpg',
+                    'images/proyectos/vida_cotidiana_12.jpg',
+                    'images/proyectos/vida_cotidiana_13.jpg',
+                    'images/proyectos/vida_cotidiana_4.jpg'
+                ],
+                tipo: { es: 'Investigación', en: 'Research', cat: 'Recerca' },
+                titulo: {
+                    es: 'La vida cotidiana explicada a través de la arquitectura',
+                    en: 'Everyday life explained through architecture',
+                    cat: 'La vida quotidiana explicada a través de l\'arquitectura'
+                },
+                nombreCorto: {
+                    es: 'La vida quotidiana',
+                    en: 'Everyday life',
+                    cat: 'La vida quotidiana'
+                },
+                lugar: { es: 'Barcelona · 2000-2020', en: 'Barcelona · 2000-2020', cat: 'Barcelona · 2000-2020' },
+                premio: { es: 'Investigación UPC', en: 'UPC Research', cat: 'Recerca UPC' },
+                colorPremio: '#7B4B94',
+                descripciones: [
+                    {
+                        es: 'Propuesta expositiva del Departamento de Proyectos de la UPC en el Pabellón Mies van der Rohe.',
+                        en: 'Exhibition by the UPC Projects Department at the Mies van der Rohe Pavilion.',
+                        cat: 'Proposta expositiva del Departament de Projectes de la UPC al Pavelló Mies van der Rohe.'
+                    },
+                    {
+                        es: 'Profundiza en los debates sobre la materialización de nuestra vida cotidiana.',
+                        en: 'Delves into debates about the materialization of our everyday life.',
+                        cat: 'Aprofundeix en els debats sobre la materialització de la nostra vida quotidiana.'
+                    },
+                    {
+                        es: 'Entre 2000 y 2020 sufrimos dos grandes crisis. La primera, financiera, iniciada en 2008.',
+                        en: 'Between 2000 and 2020 we suffered two major crises. The first, financial, started in 2008.',
+                        cat: 'Entre 2000 i 2020 vam patir dues grans crisis. La primera, financera, iniciada el 2008.'
+                    },
+                    {
+                        es: 'La segunda, la crisis sanitaria COVID-19, cuyo origen se remonta a finales de 2019.',
+                        en: 'The second, the COVID-19 health crisis, originated in late 2019.',
+                        cat: 'La segona, la crisi sanitària COVID-19, originada a finals de 2019.'
+                    },
+                    {
+                        es: 'A estas sumamos la crisis climática: debemos replantear cómo materializamos nuestra vida en común.',
+                        en: 'To these we add the climate crisis: we must rethink how we materialize our life together.',
+                        cat: 'A aquestes sumem la crisi climàtica: hem de replantejar com materialitzem la vida en comú.'
+                    },
+                    {
+                        es: 'Un recorrido crítico de 20 años de construcción del Área Metropolitana de Barcelona.',
+                        en: 'A critical journey through 20 years of construction in the Barcelona Metropolitan Area.',
+                        cat: 'Un recorregut crític de 20 anys de construcció de l\'Àrea Metropolitana de Barcelona.'
+                    }
+                ],
+                bienvenida: {
+                    es: 'Bienvenido a esta investigación. Pregúntame lo que quieras saber.',
+                    en: 'Welcome to this research. Ask me anything you want to know.',
+                    cat: 'Benvingut a aquesta investigació. Pregunta\'m el que vulguis saber.'
+                },
+                saludo: {
+                    es: '¡Hola! Esta investigación explora cómo la arquitectura de Barcelona refleja y condiciona la vida cotidiana.',
+                    en: 'Hi! This research explores how Barcelona\'s architecture reflects and conditions everyday life.',
+                    cat: 'Hola! Aquesta investigació explora com l\'arquitectura de Barcelona reflecteix i condiciona la vida quotidiana.'
+                }
+            }
+        ];
+
+        let currentProyecto = 0;
+        let currentFoto = 0;
+
+        // ================================================================
+        // FUNCIONES
+        // ================================================================
+
+        function t(obj) {
+            return obj[currentLang] || obj.es;
+        }
+
+        function actualizarDescripcion() {
+            const p = PROYECTOS[currentProyecto];
+            const desc = p.descripciones ? p.descripciones[currentFoto] : p.descripcion;
+            if (desc) {
+                document.getElementById('info-descripcion').textContent = t(desc);
+            }
+        }
+
+        function actualizarProyecto() {
+            const p = PROYECTOS[currentProyecto];
+            currentFoto = 0;
+
+            document.getElementById('info-tipo').textContent = t(p.tipo);
+            document.getElementById('info-titulo').textContent = t(p.titulo);
+            document.getElementById('info-lugar').textContent = t(p.lugar);
+            document.getElementById('info-premio').textContent = t(p.premio);
+            document.getElementById('info-premio').style.color = p.colorPremio;
+            actualizarDescripcion();
+            document.getElementById('bg-image').style.backgroundImage = `url('${p.imagenes[0]}')`;
+            actualizarContadorFotos();
+
+            // Actualizar selector
+            document.querySelectorAll('.selector-btn').forEach((btn, i) => {
+                btn.classList.toggle('active', i === currentProyecto);
+            });
+        }
+
+        function actualizarContadorFotos() {
+            const p = PROYECTOS[currentProyecto];
+            document.getElementById('foto-counter').textContent = `${currentFoto + 1} / ${p.imagenes.length}`;
+        }
+
+        function cambiarFoto(dir) {
+            const p = PROYECTOS[currentProyecto];
+            currentFoto = (currentFoto + dir + p.imagenes.length) % p.imagenes.length;
+
+            const bgImage = document.getElementById('bg-image');
+            bgImage.style.opacity = '0';
+            setTimeout(() => {
+                bgImage.style.backgroundImage = `url('${p.imagenes[currentFoto]}')`;
+                bgImage.style.opacity = '1';
+                actualizarContadorFotos();
+                actualizarDescripcion();
+            }, 300);
+        }
+
+        function cambiarProyecto(index) {
+            // Ciclar proyectos
+            if (index < 0) index = PROYECTOS.length - 1;
+            if (index >= PROYECTOS.length) index = 0;
+            if (index === currentProyecto) return;
+
+            currentProyecto = index;
+            cerrarProyectoMenu();
+
+            const bgImage = document.getElementById('bg-image');
+            bgImage.style.opacity = '0';
+
+            setTimeout(() => {
+                actualizarProyecto();
+                actualizarNombreProyecto();
+                bgImage.style.opacity = '1';
+                mostrarBienvenida();
+            }, 300);
+        }
+
+        function actualizarNombreProyecto() {
+            const p = PROYECTOS[currentProyecto];
+            document.getElementById('proy-nombre-text').textContent = t(p.nombreCorto);
+            document.getElementById('seccion-label').textContent = 'Beni Ezquerro · ' + t(p.tipo);
+            generarMenuProyectos();
+        }
+
+        function generarMenuProyectos() {
+            const menu = document.getElementById('proy-menu');
+            menu.innerHTML = '';
+            PROYECTOS.forEach((p, i) => {
+                const btn = document.createElement('button');
+                btn.className = 'proy-menu-item' + (i === currentProyecto ? ' active' : '');
+                btn.textContent = t(p.nombreCorto);
+                btn.onclick = () => cambiarProyecto(i);
+                menu.appendChild(btn);
+            });
+        }
+
+        function toggleProyectoMenu() {
+            const menu = document.getElementById('proy-menu');
+            const btn = document.getElementById('proy-nombre');
+            menu.classList.toggle('open');
+            btn.classList.toggle('open');
+        }
+
+        function cerrarProyectoMenu() {
+            document.getElementById('proy-menu').classList.remove('open');
+            document.getElementById('proy-nombre').classList.remove('open');
+        }
+
+        function mostrarRespuesta(texto) {
+            const responseZone = document.getElementById('response-zone');
+            responseZone.textContent = texto;
+            responseZone.classList.add('visible');
+
+            // Desaparece después de 10 segundos
+            setTimeout(() => {
+                responseZone.classList.remove('visible');
+            }, 10000);
+        }
+
+        function cerrarRespuesta() {
+            document.getElementById('response-zone').classList.remove('visible');
+        }
+
+        function mostrarBienvenida() {
+            const p = PROYECTOS[currentProyecto];
+            mostrarRespuesta(t(p.bienvenida));
+        }
+
+        function cambiarIdioma(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            actualizarProyecto();
+            actualizarNombreProyecto();
+        }
+
+        // ================================================================
+        // INICIALIZACIÓN
+        // ================================================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Obtener proyecto de URL si existe
+            const params = new URLSearchParams(window.location.search);
+            const proyectoId = params.get('p');
+            if (proyectoId) {
+                const index = PROYECTOS.findIndex(p => p.id === proyectoId);
+                if (index !== -1) currentProyecto = index;
+            }
+
+            cambiarIdioma(currentLang);
+            actualizarProyecto();
+            actualizarNombreProyecto();
+            mostrarBienvenida();
+        });
+
+        // Cerrar menú de proyectos al hacer click fuera
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.proyecto-nav')) {
+                cerrarProyectoMenu();
+            }
+        });
+
+        // Menu
+        const menuBtn = document.getElementById('menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const sidebarClose = document.getElementById('sidebar-close');
+
+        function toggleMenu(open) {
+            sidebar.classList.toggle('open', open);
+            sidebarOverlay.classList.toggle('open', open);
+        }
+
+        // Lightbox
+        function abrirLightbox() {
+            const p = PROYECTOS[currentProyecto];
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightbox-img');
+            img.src = p.imagenes[currentFoto];
+            lightbox.classList.add('open');
+        }
+
+        function cerrarLightbox() {
+            document.getElementById('lightbox').classList.remove('open');
+        }
+
+        // Cerrar lightbox con click en fondo
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) cerrarLightbox();
+        });
+
+        menuBtn.addEventListener('click', () => toggleMenu(true));
+        sidebarClose.addEventListener('click', () => toggleMenu(false));
+        sidebarOverlay.addEventListener('click', () => toggleMenu(false));
+
+        // Teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                cerrarLightbox();
+                cerrarRespuesta();
+            }
+            if (document.activeElement.tagName === 'INPUT') return;
+            if (e.key === 'ArrowRight') cambiarFoto(1);
+            if (e.key === 'ArrowLeft') cambiarFoto(-1);
+        });
+
+        // Procesar pregunta con Enter
+        document.getElementById('prompt-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = this.value.trim().toLowerCase();
+                if (query) {
+                    procesarPregunta(query);
+                    this.value = '';
+                }
+            }
+        });
+
+        function procesarPregunta(query) {
+            const p = PROYECTOS[currentProyecto];
+            let respuesta = '';
+
+            // Detectar "sí" para pasar a siguiente foto
+            if (query === 'si' || query === 'sí' || query === 'yes' || query === 'vale' || query === 'ok' || query === 'siguiente') {
+                cambiarFoto(1);
+                const siguiente = {
+                    es: '¡Listo! ¿Seguimos con la siguiente?',
+                    en: 'Done! Shall we continue with the next one?',
+                    cat: 'Fet! Seguim amb la següent?'
+                };
+                respuesta = t(siguiente);
+            } else if (query === 'no' || query === 'anterior' || query === 'atrás' || query === 'atras') {
+                cambiarFoto(-1);
+                const anterior = {
+                    es: 'Volvemos a la anterior. ¿Seguimos?',
+                    en: 'Back to the previous one. Shall we continue?',
+                    cat: 'Tornem a l\'anterior. Seguim?'
+                };
+                respuesta = t(anterior);
+            } else if (query.includes('hola') || query.includes('hello') || query.includes('hi')) {
+                respuesta = t(p.saludo);
+            }
+            // Navegación a secciones
+            else if (query.includes('investigaci') || query.includes('research') || query.includes('recerca')) {
+                const msg = { es: 'Vamos a Investigación...', en: 'Going to Research...', cat: 'Anem a Recerca...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'investigacion.html'; }, 1500);
+                return;
+            }
+            else if (query.includes('premio') || query.includes('award') || query.includes('premi')) {
+                const msg = { es: 'Vamos a Premios...', en: 'Going to Awards...', cat: 'Anem a Premis...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'investigacion.html?tab=premios'; }, 1500);
+                return;
+            }
+            else if (query.includes('publicaci') || query.includes('publication')) {
+                const msg = { es: 'Vamos a Publicaciones...', en: 'Going to Publications...', cat: 'Anem a Publicacions...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'investigacion.html?tab=publicaciones'; }, 1500);
+                return;
+            }
+            else if (query.includes('cliente') || query.includes('client')) {
+                const msg = { es: 'Vamos a Clientes...', en: 'Going to Clients...', cat: 'Anem a Clients...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'clientes.html'; }, 1500);
+                return;
+            }
+            else if (query.includes('sobre') || query.includes('about')) {
+                const msg = { es: 'Vamos a Sobre mí...', en: 'Going to About me...', cat: 'Anem a Sobre mi...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'sobre.html'; }, 1500);
+                return;
+            }
+            else if (query.includes('contacto') || query.includes('contact') || query.includes('contacte')) {
+                const msg = { es: 'Vamos a Contacto...', en: 'Going to Contact...', cat: 'Anem a Contacte...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'contacto.html'; }, 1500);
+                return;
+            }
+            else {
+                // Respuesta genérica
+                const generica = {
+                    es: 'Escribe "sí" para ver la siguiente foto o "no" para la anterior.',
+                    en: 'Type "yes" to see the next photo or "no" for the previous one.',
+                    cat: 'Escriu "sí" per veure la següent foto o "no" per l\'anterior.'
+                };
+                respuesta = t(generica);
+            }
+
+            mostrarRespuesta(respuesta);
+        }
+    </script>
+</body>
+</html>

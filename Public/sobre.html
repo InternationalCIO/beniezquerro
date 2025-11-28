@@ -1,0 +1,1050 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre mí · Beni Ezquerro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-display: 'Inter', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --color-texto: #2c2c2c;
+            --color-blanco: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-body);
+            background: #0a0a0a;
+            color: var(--color-blanco);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .page-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%);
+            height: 100%;
+        }
+
+        .content {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 0;
+        }
+
+        /* === LADO IZQUIERDO: FOTO === */
+        .photo-side {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+            overflow: hidden;
+        }
+
+        .photo-container {
+            position: relative;
+            width: min(100%, 45vh);
+            max-width: 340px;
+            aspect-ratio: 1;
+        }
+
+        /* Círculo decorativo animado */
+        .photo-orbit {
+            position: absolute;
+            inset: -20px;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            animation: rotate 30s linear infinite;
+        }
+
+        .photo-orbit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 50%;
+        }
+
+        .photo-orbit-2 {
+            position: absolute;
+            inset: -50px;
+            border: 1px dashed rgba(255,255,255,0.05);
+            border-radius: 50%;
+            animation: rotate 45s linear infinite reverse;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Marco de la foto */
+        .photo-frame {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.1),
+                0 25px 80px rgba(0,0,0,0.5),
+                0 0 100px rgba(255,255,255,0.03);
+        }
+
+        .photo-frame::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                135deg,
+                rgba(255,255,255,0.1) 0%,
+                transparent 50%,
+                rgba(0,0,0,0.2) 100%
+            );
+            z-index: 2;
+            pointer-events: none;
+        }
+
+        .photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.05);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .photo-frame:hover .photo {
+            filter: grayscale(0%) contrast(1);
+            transform: scale(1.05);
+        }
+
+        /* Nombre flotante */
+        .floating-name {
+            position: absolute;
+            bottom: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.6);
+            white-space: nowrap;
+        }
+
+        /* === LADO DERECHO: CONTENIDO === */
+        .info-side {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2rem 3rem;
+            padding-right: 6%;
+        }
+
+        .intro-label {
+            font-size: 0.6rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+            margin-bottom: 0.75rem;
+        }
+
+        .page-title {
+            font-size: clamp(2rem, 3.5vw, 2.8rem);
+            font-weight: 200;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.7) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .about-text {
+            font-size: 0.92rem;
+            line-height: 1.7;
+            font-weight: 300;
+            color: rgba(255,255,255,0.75);
+            margin-bottom: 1.25rem;
+            max-width: 440px;
+        }
+
+        /* CV Items con línea animada */
+        .cv-section {
+            margin-bottom: 1.25rem;
+        }
+
+        .cv-item {
+            position: relative;
+            padding: 0.6rem 0;
+            padding-left: 1.25rem;
+            border-left: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.3s ease;
+        }
+
+        .cv-item::before {
+            content: '';
+            position: absolute;
+            left: -1px;
+            top: 0;
+            width: 1px;
+            height: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.6), transparent);
+            transition: height 0.4s ease;
+        }
+
+        .cv-item:hover::before {
+            height: 100%;
+        }
+
+        .cv-item:hover {
+            padding-left: 1.5rem;
+        }
+
+        .cv-label {
+            font-size: 0.55rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 0.15rem;
+        }
+
+        .cv-value {
+            font-size: 0.82rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.85);
+        }
+
+        /* Contacto */
+        .contact-section {
+            padding-top: 1.25rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.9rem 1.5rem;
+        }
+
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.15rem;
+        }
+
+        .contact-label {
+            font-size: 0.5rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.3);
+        }
+
+        .contact-value {
+            font-size: 0.8rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.8);
+        }
+
+        .contact-link {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            position: relative;
+            transition: color 0.3s;
+        }
+
+        .contact-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: rgba(255,255,255,0.5);
+            transition: width 0.3s ease;
+        }
+
+        .contact-link:hover {
+            color: #fff;
+        }
+
+        .contact-link:hover::after {
+            width: 100%;
+        }
+
+        /* === PODCAST === */
+        .podcast-section {
+            margin-top: 1.5rem;
+            padding-top: 1.25rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .podcast-player {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            transition: background 0.3s;
+        }
+
+        .podcast-player:hover {
+            background: rgba(255,255,255,0.08);
+        }
+
+        .podcast-play-btn {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            color: #fff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .podcast-play-btn:hover {
+            background: rgba(255,255,255,0.25);
+            transform: scale(1.05);
+        }
+
+        .podcast-play-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .podcast-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .podcast-label {
+            font-size: 0.5rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 0.15rem;
+        }
+
+        .podcast-title {
+            font-size: 0.78rem;
+            font-weight: 300;
+            color: rgba(255,255,255,0.85);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .podcast-time {
+            font-size: 0.65rem;
+            color: rgba(255,255,255,0.4);
+            flex-shrink: 0;
+        }
+
+        audio {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            body {
+                height: auto;
+                min-height: 100vh;
+                overflow-y: auto;
+            }
+
+            .content {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto;
+            }
+
+            .photo-side {
+                padding: 1.5rem;
+                min-height: auto;
+            }
+
+            .photo-container {
+                max-width: 200px;
+                width: 200px;
+            }
+
+            .floating-name {
+                display: none;
+            }
+
+            .info-side {
+                padding: 1.5rem;
+                text-align: center;
+            }
+
+            .page-title {
+                font-size: 1.8rem;
+            }
+
+            .about-text {
+                font-size: 0.85rem;
+                max-width: 100%;
+            }
+
+            .cv-item {
+                border-left: none;
+                border-bottom: 1px solid rgba(255,255,255,0.1);
+                padding-left: 0;
+            }
+
+            .cv-item:hover {
+                padding-left: 0;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr 1fr;
+                text-align: center;
+            }
+        }
+
+        @media (max-height: 700px) {
+            .photo-container {
+                max-width: 280px;
+                width: min(100%, 35vh);
+            }
+
+            .page-title {
+                font-size: 1.8rem;
+                margin-bottom: 0.75rem;
+            }
+
+            .about-text {
+                font-size: 0.85rem;
+                margin-bottom: 1rem;
+                line-height: 1.6;
+            }
+
+            .cv-item {
+                padding: 0.4rem 0;
+                padding-left: 1rem;
+            }
+
+            .cv-value {
+                font-size: 0.78rem;
+            }
+
+            .cv-section {
+                margin-bottom: 1rem;
+            }
+
+            .contact-section {
+                padding-top: 1rem;
+            }
+
+            .contact-grid {
+                gap: 0.6rem 1rem;
+            }
+        }
+
+        /* === PIE (igual que proyecto.html) === */
+        .bottom-zone {
+            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
+            padding-top: 0.5rem;
+            padding-bottom: 10vh;
+            flex-shrink: 0;
+        }
+
+        .prompt-zone {
+            position: relative;
+            padding: 0.6rem 1.5rem 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .prompt-zone .seccion-label {
+            position: absolute;
+            bottom: -1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-align: center;
+        }
+
+        .response-zone {
+            text-align: center;
+            padding: 0.75rem 1.5rem;
+            color: rgba(255,255,255,0.9);
+            font-size: 0.95rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .response-zone.visible {
+            opacity: 1;
+        }
+
+        .prompt-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 95%;
+            max-width: 750px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 50px;
+            padding: 0.5rem 1rem 0.5rem 1.5rem;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+        }
+
+        .menu-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+            flex-shrink: 0;
+        }
+
+        .menu-btn:hover { background: rgba(0,0,0,0.04); }
+
+        .menu-icon {
+            display: block;
+            width: 16px;
+            height: 1.5px;
+            background: #666;
+            position: relative;
+        }
+
+        .menu-icon::before,
+        .menu-icon::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 1.5px;
+            background: #666;
+            left: 0;
+        }
+
+        .menu-icon::before { top: -5px; }
+        .menu-icon::after { bottom: -5px; }
+
+        .prompt-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: var(--color-texto);
+            padding: 0.5rem 0;
+            outline: none;
+        }
+
+        .prompt-input::placeholder { color: #aaa; }
+
+        .lang-selector {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin-left: 0.5rem;
+            padding-left: 0.75rem;
+            border-left: 1px solid rgba(0,0,0,0.08);
+            flex-shrink: 0;
+        }
+
+        .lang-btn {
+            padding: 0.4rem 0.5rem;
+            border: none;
+            background: transparent;
+            color: #bbb;
+            font-family: var(--font-body);
+            font-size: 0.6rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn:hover { color: #666; }
+        .lang-btn.active { color: #333; font-weight: 500; }
+
+        /* === SIDEBAR === */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 320px;
+            height: 100%;
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transform: translateX(-100%);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar.open { transform: translateX(0); }
+
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .sidebar-overlay.open { opacity: 1; visibility: visible; }
+
+        .sidebar-header {
+            padding: 2.5rem 2rem 2rem;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .sidebar-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            color: #ffffff;
+            text-decoration: none;
+            line-height: 1.2;
+            text-shadow: 0 0 20px rgba(255,255,255,0.1);
+        }
+
+        .sidebar-title:hover { color: #E86A33; }
+
+        .sidebar-close {
+            width: 32px;
+            height: 32px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: transparent;
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.6);
+            cursor: pointer;
+            border-radius: 50%;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-close:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.4);
+            color: #fff;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-link {
+            padding: 1rem 0;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 0.02em;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .sidebar-link::before {
+            content: '';
+            width: 0;
+            height: 1px;
+            background: #E86A33;
+            transition: width 0.3s;
+        }
+
+        .sidebar-link:hover {
+            color: #fff;
+            padding-left: 0.5rem;
+        }
+
+        .sidebar-link:hover::before { width: 20px; }
+
+        .sidebar-divider {
+            height: 1px;
+            background: transparent;
+            margin: 0.5rem 0;
+        }
+
+        .sidebar-footer {
+            padding: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .sidebar-tagline {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+            font-style: italic;
+            letter-spacing: 0.03em;
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content">
+            <!-- LADO IZQUIERDO: FOTO -->
+            <div class="photo-side">
+                <div class="photo-container">
+                    <div class="photo-orbit"></div>
+                    <div class="photo-orbit-2"></div>
+                    <div class="photo-frame">
+                        <img src="images/proyectos/beniezquerro.jpg" alt="María Beni Ezquerro" class="photo">
+                    </div>
+                </div>
+                <span class="floating-name" data-i18n="floatingName">Arquitecta · Barcelona</span>
+            </div>
+
+            <!-- LADO DERECHO: INFO -->
+            <div class="info-side">
+                <span class="intro-label" data-i18n="introLabel">Sobre mí</span>
+                <h1 class="page-title">María Beni<br>Ezquerro</h1>
+
+                <p class="about-text" data-i18n="aboutText">
+                    Aborda la arquitectura combinando la práctica espacial, la investigación crítica
+                    y la docencia. Este acercamiento múltiple condiciona toda su obra: la construida,
+                    la escrita y la imaginada.
+                </p>
+
+                <div class="cv-section">
+                    <div class="cv-item">
+                        <div class="cv-label" data-i18n="cvDocencia">Docencia</div>
+                        <div class="cv-value" data-i18n="cvDocenciaVal">Profesora de Proyectos Arquitectónicos en la ETSAB</div>
+                    </div>
+                    <div class="cv-item">
+                        <div class="cv-label" data-i18n="cvInvestigacion">Investigación</div>
+                        <div class="cv-value" data-i18n="cvInvestigacionVal">Doctoranda del grupo HABITAR, DPA ETSAB</div>
+                    </div>
+                    <div class="cv-item">
+                        <div class="cv-label" data-i18n="cvFormacion">Formación</div>
+                        <div class="cv-value" data-i18n="cvFormacionVal">Máster ETSAB 2020 · Arquitecta ETSAV 2014</div>
+                    </div>
+                </div>
+
+                <div class="contact-section">
+                    <div class="contact-grid">
+                        <div class="contact-item">
+                            <span class="contact-label">Email</span>
+                            <a href="mailto:info@beniezquerro.com" class="contact-link">info@beniezquerro.com</a>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-label" data-i18n="contactTel">Teléfono</span>
+                            <span class="contact-value">+34 670 912 203</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-label" data-i18n="contactEstudio">Estudio</span>
+                            <span class="contact-value">c/ Bruc 96, Barcelona</span>
+                        </div>
+                        <div class="contact-item">
+                            <span class="contact-label">Instagram</span>
+                            <a href="https://instagram.com/beniezquerro" target="_blank" class="contact-link">@beniezquerro</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Podcast -->
+                <div class="podcast-section">
+                    <div class="podcast-player">
+                        <button class="podcast-play-btn" id="podcast-play-btn">
+                            <svg id="play-icon" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon points="5,3 19,12 5,21"></polygon>
+                            </svg>
+                            <svg id="pause-icon" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+                                <rect x="6" y="4" width="4" height="16"></rect>
+                                <rect x="14" y="4" width="4" height="16"></rect>
+                            </svg>
+                        </button>
+                        <div class="podcast-info">
+                            <div class="podcast-label" data-i18n="podcastLabel">Escucha</div>
+                            <div class="podcast-title" data-i18n="podcastTitle">Conversación sobre arquitectura</div>
+                        </div>
+                        <span class="podcast-time" id="podcast-time">0:00</span>
+                    </div>
+                    <audio id="podcast-audio" src="podcast/podcast.m4a" preload="metadata"></audio>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-zone">
+            <div class="response-zone" id="response-zone"></div>
+            <div class="prompt-zone">
+                <span class="seccion-label" data-i18n="seccionLabel">Beni Ezquerro · Sobre mí</span>
+                <div class="prompt-wrapper">
+                    <button class="menu-btn" id="menu-btn">
+                        <span class="menu-icon"></span>
+                    </button>
+                    <input type="text" class="prompt-input" id="prompt-input" data-i18n="placeholder" placeholder="¿Qué necesitas?">
+                    <div class="lang-selector">
+                        <button class="lang-btn active">ES</button>
+                        <button class="lang-btn">EN</button>
+                        <button class="lang-btn">CAT</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="sidebar-title">Beni<br>Ezquerro</a>
+                <button class="sidebar-close" id="sidebar-close">×</button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="proyecto.html" class="sidebar-link" data-i18n="obra">Obra</a>
+                <a href="investigacion.html" class="sidebar-link" data-i18n="investigacion">Investigación</a>
+                <a href="clientes.html" class="sidebar-link" data-i18n="clientes">Clientes</a>
+                <div class="sidebar-divider"></div>
+                <a href="sobre.html" class="sidebar-link" data-i18n="sobreMi">Sobre mí</a>
+            </nav>
+            <div class="sidebar-footer">
+                <p class="sidebar-tagline" data-i18n="tagline">Práctica, investigación y docencia</p>
+            </div>
+        </aside>
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    </div>
+
+    <script>
+        // Traducciones
+        const i18n = {
+            // Contenido principal
+            floatingName: { es: 'Arquitecta · Barcelona', en: 'Architect · Barcelona', cat: 'Arquitecta · Barcelona' },
+            introLabel: { es: 'Sobre mí', en: 'About me', cat: 'Sobre mi' },
+            aboutText: {
+                es: 'Aborda la arquitectura combinando la práctica espacial, la investigación crítica y la docencia. Este acercamiento múltiple condiciona toda su obra: la construida, la escrita y la imaginada.',
+                en: 'She approaches architecture by combining spatial practice, critical research and teaching. This multiple approach shapes all her work: the built, the written and the imagined.',
+                cat: 'Aborda l\'arquitectura combinant la pràctica espacial, la recerca crítica i la docència. Aquest apropament múltiple condiciona tota la seva obra: la construïda, l\'escrita i la imaginada.'
+            },
+            // CV
+            cvDocencia: { es: 'Docencia', en: 'Teaching', cat: 'Docència' },
+            cvDocenciaVal: { es: 'Profesora de Proyectos Arquitectónicos en la ETSAB', en: 'Professor of Architectural Design at ETSAB', cat: 'Professora de Projectes Arquitectònics a l\'ETSAB' },
+            cvInvestigacion: { es: 'Investigación', en: 'Research', cat: 'Recerca' },
+            cvInvestigacionVal: { es: 'Doctoranda del grupo HABITAR, DPA ETSAB', en: 'PhD candidate at HABITAR group, DPA ETSAB', cat: 'Doctoranda del grup HABITAR, DPA ETSAB' },
+            cvFormacion: { es: 'Formación', en: 'Education', cat: 'Formació' },
+            cvFormacionVal: { es: 'Máster ETSAB 2020 · Arquitecta ETSAV 2014', en: 'Master ETSAB 2020 · Architect ETSAV 2014', cat: 'Màster ETSAB 2020 · Arquitecta ETSAV 2014' },
+            // Contacto
+            contactTel: { es: 'Teléfono', en: 'Phone', cat: 'Telèfon' },
+            contactEstudio: { es: 'Estudio', en: 'Studio', cat: 'Estudi' },
+            // Podcast
+            podcastLabel: { es: 'Escucha', en: 'Listen', cat: 'Escolta' },
+            podcastTitle: { es: 'Conversación sobre arquitectura', en: 'Conversation about architecture', cat: 'Conversa sobre arquitectura' },
+            // Footer
+            seccionLabel: { es: 'Beni Ezquerro · Sobre mí', en: 'Beni Ezquerro · About me', cat: 'Beni Ezquerro · Sobre mi' },
+            placeholder: { es: '¿Qué necesitas?', en: 'What do you need?', cat: 'Què necessites?' },
+            // Sidebar
+            obra: { es: 'Obra', en: 'Work', cat: 'Obra' },
+            investigacion: { es: 'Investigación', en: 'Research', cat: 'Recerca' },
+            clientes: { es: 'Clientes', en: 'Clients', cat: 'Clients' },
+            sobreMi: { es: 'Sobre mí', en: 'About me', cat: 'Sobre mi' },
+            tagline: { es: 'Práctica, investigación y docencia', en: 'Practice, research and teaching', cat: 'Pràctica, recerca i docència' }
+        };
+
+        let currentLang = localStorage.getItem('lang') || 'es';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+
+            // Actualizar botones
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent === lang.toUpperCase());
+            });
+
+            // Actualizar textos
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (i18n[key] && i18n[key][lang]) {
+                    if (el.tagName === 'INPUT') {
+                        el.placeholder = i18n[key][lang];
+                    } else {
+                        el.textContent = i18n[key][lang];
+                    }
+                }
+            });
+        }
+
+        // Función helper para traducir
+        function t(obj) {
+            return obj[currentLang] || obj.es;
+        }
+
+        // Mostrar respuesta
+        function mostrarRespuesta(texto) {
+            const responseZone = document.getElementById('response-zone');
+            responseZone.textContent = texto;
+            responseZone.classList.add('visible');
+            setTimeout(() => {
+                responseZone.classList.remove('visible');
+            }, 10000);
+        }
+
+        // Inicializar idioma
+        document.addEventListener('DOMContentLoaded', () => setLanguage(currentLang));
+
+        // Botones de idioma
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                setLanguage(btn.textContent.toLowerCase());
+            });
+        });
+
+        // Procesar pregunta con Enter
+        document.getElementById('prompt-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = this.value.trim().toLowerCase();
+                if (query) {
+                    procesarPregunta(query);
+                    this.value = '';
+                }
+            }
+        });
+
+        function procesarPregunta(query) {
+            // Navegación a secciones
+            if (query.includes('obra') || query.includes('work') || query.includes('proyecto') || query.includes('project')) {
+                const msg = { es: 'Vamos a Obra...', en: 'Going to Work...', cat: 'Anem a Obra...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'proyecto.html'; }, 1500);
+                return;
+            }
+            else if (query.includes('investigaci') || query.includes('research') || query.includes('recerca')) {
+                const msg = { es: 'Vamos a Investigación...', en: 'Going to Research...', cat: 'Anem a Recerca...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'investigacion.html'; }, 1500);
+                return;
+            }
+            else if (query.includes('premio') || query.includes('award') || query.includes('premi')) {
+                const msg = { es: 'Vamos a Premios...', en: 'Going to Awards...', cat: 'Anem a Premis...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'investigacion.html?tab=premios'; }, 1500);
+                return;
+            }
+            else if (query.includes('publicaci') || query.includes('publication')) {
+                const msg = { es: 'Vamos a Publicaciones...', en: 'Going to Publications...', cat: 'Anem a Publicacions...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'investigacion.html?tab=publicaciones'; }, 1500);
+                return;
+            }
+            else if (query.includes('cliente') || query.includes('client')) {
+                const msg = { es: 'Vamos a Clientes...', en: 'Going to Clients...', cat: 'Anem a Clients...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'clientes.html'; }, 1500);
+                return;
+            }
+            else if (query.includes('contacto') || query.includes('contact') || query.includes('contacte')) {
+                const msg = { es: 'Vamos a Contacto...', en: 'Going to Contact...', cat: 'Anem a Contacte...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'contacto.html'; }, 1500);
+                return;
+            }
+            else {
+                const generica = { es: 'Escribe el nombre de una sección para navegar.', en: 'Type a section name to navigate.', cat: 'Escriu el nom d\'una secció per navegar.' };
+                mostrarRespuesta(t(generica));
+            }
+        }
+
+        // Sidebar
+        const menuBtn = document.getElementById('menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const sidebarClose = document.getElementById('sidebar-close');
+
+        function toggleMenu(open) {
+            sidebar.classList.toggle('open', open);
+            sidebarOverlay.classList.toggle('open', open);
+        }
+
+        menuBtn.addEventListener('click', () => toggleMenu(true));
+        sidebarClose.addEventListener('click', () => toggleMenu(false));
+        sidebarOverlay.addEventListener('click', () => toggleMenu(false));
+
+        // Podcast player
+        const podcastAudio = document.getElementById('podcast-audio');
+        const podcastPlayBtn = document.getElementById('podcast-play-btn');
+        const playIcon = document.getElementById('play-icon');
+        const pauseIcon = document.getElementById('pause-icon');
+        const podcastTime = document.getElementById('podcast-time');
+
+        // Bloquear descarga
+        podcastAudio.controlsList = 'nodownload';
+        podcastAudio.oncontextmenu = () => false;
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${mins}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        podcastPlayBtn.addEventListener('click', () => {
+            if (podcastAudio.paused) {
+                podcastAudio.play();
+                playIcon.style.display = 'none';
+                pauseIcon.style.display = 'block';
+            } else {
+                podcastAudio.pause();
+                playIcon.style.display = 'block';
+                pauseIcon.style.display = 'none';
+            }
+        });
+
+        podcastAudio.addEventListener('timeupdate', () => {
+            podcastTime.textContent = formatTime(podcastAudio.currentTime);
+        });
+
+        podcastAudio.addEventListener('ended', () => {
+            playIcon.style.display = 'block';
+            pauseIcon.style.display = 'none';
+            podcastTime.textContent = '0:00';
+        });
+
+        podcastAudio.addEventListener('loadedmetadata', () => {
+            podcastTime.textContent = formatTime(podcastAudio.duration);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+/* ================================================================
+   BENIEZQUERRO - TEMA: HORTUS CONCLUSUS
+   Logroño, 2016 · 1er Premio Festival Concéntrico 02
+
+   "Un pequeño oasis aislado de la ciudad en forma de claustro"
+   ================================================================ */
+
+.home-container {
+    background:
+        /* Gradiente para legibilidad */
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(0, 0, 0, 0.1) 50%,
+            rgba(0, 0, 0, 0.4) 100%
+        ),
+        /* Imagen del proyecto */
+        url('../../images/hortus.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* Viñeta sutil */
+.overlay {
+    background: radial-gradient(
+        ellipse at center,
+        transparent 30%,
+        rgba(0, 0, 0, 0.2) 100%
+    );
+}
+
+/* Logo - Contraste sobre colores vivos */
+.logo {
+    color: #ffffff;
+    text-shadow:
+        0 2px 10px rgba(0, 0, 0, 0.5),
+        0 0 40px rgba(255, 255, 255, 0.3);
+}
+
+/* Prompt - Semitransparente para integrarse */
+.prompt-wrapper {
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.prompt-wrapper:focus-within {
+    background: rgba(255, 255, 255, 0.98);
+}
+
+/* Círculos de navegación */
+.circle-icon {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(255, 255, 255, 0.6);
+}
+
+.nav-circle:hover .circle-icon {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+/* Labels blancos con sombra */
+.circle-label {
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* Info proyecto */
+.proyecto-info {
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.proyecto-linea {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+.proyecto-titulo {
+    color: #ffffff;
+}
+
+.proyecto-premio {
+    /* Naranja del Hortus Conclusus */
+    color: #E86A33;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+/* Navegación */
+.nav-arrow {
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+}
+
+.nav-arrow:hover {
+    background: rgba(255, 255, 255, 0.45);
+}
+
+.nav-dot {
+    border-color: rgba(255, 255, 255, 0.7);
+}
+
+.nav-dot.active {
+    background: #E86A33;
+    border-color: #E86A33;
+}

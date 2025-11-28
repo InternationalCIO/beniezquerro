@@ -1,0 +1,82 @@
+/* ================================================================
+   BENIEZQUERRO - TEMA: ESCUELA OLIVERES MIL·LENÀRIES
+   Ventalló, 2024 · 3er Premio
+
+   Equipamiento educativo en diálogo con el paisaje
+   ================================================================ */
+
+.home-container {
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.15) 0%,
+            rgba(107, 142, 111, 0.1) 50%,
+            rgba(107, 142, 111, 0.4) 100%
+        ),
+        url('../../images/oliveres.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.overlay {
+    background: radial-gradient(
+        ellipse at center,
+        transparent 35%,
+        rgba(107, 142, 111, 0.15) 100%
+    );
+}
+
+.logo {
+    color: #3D5A3D;
+    text-shadow:
+        0 2px 15px rgba(255, 255, 255, 0.95),
+        0 0 30px rgba(255, 255, 255, 0.7);
+}
+
+.prompt-wrapper {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(107, 142, 111, 0.15);
+}
+
+.circle-icon {
+    background: rgba(255, 255, 255, 0.92);
+}
+
+.circle-label {
+    color: #ffffff;
+    text-shadow: 0 2px 6px rgba(61, 90, 61, 0.6);
+}
+
+.proyecto-info {
+    color: #ffffff;
+}
+
+.proyecto-titulo {
+    color: #ffffff;
+}
+
+.proyecto-premio {
+    /* Verde paisaje */
+    color: #8FBC8F;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
+.nav-dot.active {
+    background: #6B8E6F;
+    border-color: #6B8E6F;
+}
+
+/* Selector idioma adaptado */
+.lang-selector {
+    background: rgba(107, 142, 111, 0.25);
+}
+
+.lang-btn {
+    color: rgba(255, 255, 255, 0.85);
+}
+
+.lang-btn.active {
+    background: rgba(255, 255, 255, 0.95);
+    color: #3D5A3D;
+}

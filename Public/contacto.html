@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto · Beni Ezquerro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-display: 'Inter', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --color-texto: #2c2c2c;
+            --color-blanco: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-body);
+            background: #1a1a1a;
+            color: var(--color-blanco);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .page-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background:
+                linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(232,106,51,0.15) 100%),
+                url('images/proyectos/vida_cotidiana_12.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .contact-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 3rem;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 300;
+            margin-bottom: 1rem;
+        }
+
+        .contact-intro {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .contact-links {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .contact-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1rem 1.5rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            color: var(--color-blanco);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+
+        .contact-link:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-2px);
+        }
+
+        .contact-link svg {
+            width: 20px;
+            height: 20px;
+            opacity: 0.8;
+        }
+
+        /* === PIE (igual que proyecto.html) === */
+        .bottom-zone {
+            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
+            padding-top: 2rem;
+            padding-bottom: 10vh;
+        }
+
+        .prompt-zone {
+            position: relative;
+            padding: 0.75rem 1.5rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .prompt-zone .seccion-label {
+            position: absolute;
+            bottom: -1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-align: center;
+        }
+
+        .prompt-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 95%;
+            max-width: 750px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 50px;
+            padding: 0.5rem 1rem 0.5rem 1.5rem;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+        }
+
+        .menu-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+            flex-shrink: 0;
+        }
+
+        .menu-btn:hover { background: rgba(0,0,0,0.04); }
+
+        .menu-icon {
+            display: block;
+            width: 16px;
+            height: 1.5px;
+            background: #666;
+            position: relative;
+        }
+
+        .menu-icon::before,
+        .menu-icon::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 1.5px;
+            background: #666;
+            left: 0;
+        }
+
+        .menu-icon::before { top: -5px; }
+        .menu-icon::after { bottom: -5px; }
+
+        .prompt-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: var(--color-texto);
+            padding: 0.5rem 0;
+            outline: none;
+        }
+
+        .prompt-input::placeholder { color: #aaa; }
+
+        .lang-selector {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin-left: 0.5rem;
+            padding-left: 0.75rem;
+            border-left: 1px solid rgba(0,0,0,0.08);
+            flex-shrink: 0;
+        }
+
+        .lang-btn {
+            padding: 0.4rem 0.5rem;
+            border: none;
+            background: transparent;
+            color: #bbb;
+            font-family: var(--font-body);
+            font-size: 0.6rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn:hover { color: #666; }
+        .lang-btn.active { color: #333; font-weight: 500; }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content">
+            <div class="contact-card">
+                <h1 class="page-title">Contacto</h1>
+                <p class="contact-intro">
+                    ¿Tienes un proyecto en mente? Me encantaría conocerlo.
+                </p>
+
+                <div class="contact-links">
+                    <a href="mailto:beni@beniezquerro.com" class="contact-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        beni@beniezquerro.com
+                    </a>
+                    <a href="https://linkedin.com" target="_blank" class="contact-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                        LinkedIn
+                    </a>
+                    <a href="https://instagram.com" target="_blank" class="contact-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                        Instagram
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-zone">
+            <div class="response-zone" id="response-zone"></div>
+            <div class="prompt-zone">
+                <span class="seccion-label" data-i18n="seccionLabel">Beni Ezquerro · Contacto</span>
+                <div class="prompt-wrapper">
+                    <button class="menu-btn" id="menu-btn">
+                        <span class="menu-icon"></span>
+                    </button>
+                    <input type="text" class="prompt-input" id="prompt-input" data-i18n="placeholder" placeholder="¿Qué necesitas?">
+                    <div class="lang-selector">
+                        <button class="lang-btn active">ES</button>
+                        <button class="lang-btn">EN</button>
+                        <button class="lang-btn">CAT</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Traducciones
+        const i18n = {
+            seccionLabel: { es: 'Beni Ezquerro · Contacto', en: 'Beni Ezquerro · Contact', cat: 'Beni Ezquerro · Contacte' },
+            placeholder: { es: '¿Qué necesitas?', en: 'What do you need?', cat: 'Què necessites?' }
+        };
+
+        let currentLang = localStorage.getItem('lang') || 'es';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent === lang.toUpperCase());
+            });
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (i18n[key] && i18n[key][lang]) {
+                    if (el.tagName === 'INPUT') {
+                        el.placeholder = i18n[key][lang];
+                    } else {
+                        el.textContent = i18n[key][lang];
+                    }
+                }
+            });
+        }
+
+        function t(obj) {
+            return obj[currentLang] || obj.es;
+        }
+
+        function mostrarRespuesta(texto) {
+            const responseZone = document.getElementById('response-zone');
+            responseZone.textContent = texto;
+            responseZone.classList.add('visible');
+            setTimeout(() => {
+                responseZone.classList.remove('visible');
+            }, 10000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => setLanguage(currentLang));
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                setLanguage(btn.textContent.toLowerCase());
+            });
+        });
+
+        document.getElementById('prompt-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = this.value.trim().toLowerCase();
+                if (query) {
+                    procesarPregunta(query);
+                    this.value = '';
+                }
+            }
+        });
+
+        function procesarPregunta(query) {
+            if (query.includes('obra') || query.includes('work') || query.includes('proyecto') || query.includes('project')) {
+                const msg = { es: 'Vamos a Obra...', en: 'Going to Work...', cat: 'Anem a Obra...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'proyecto.html'; }, 1500);
+                return;
+            }
+            else if (query.includes('investigaci') || query.includes('research') || query.includes('recerca')) {
+                const msg = { es: 'Vamos a Investigación...', en: 'Going to Research...', cat: 'Anem a Recerca...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'investigacion.html'; }, 1500);
+                return;
+            }
+            else if (query.includes('premio') || query.includes('award') || query.includes('premi')) {
+                const msg = { es: 'Vamos a Premios...', en: 'Going to Awards...', cat: 'Anem a Premis...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'investigacion.html?tab=premios'; }, 1500);
+                return;
+            }
+            else if (query.includes('publicaci') || query.includes('publication')) {
+                const msg = { es: 'Vamos a Publicaciones...', en: 'Going to Publications...', cat: 'Anem a Publicacions...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'investigacion.html?tab=publicaciones'; }, 1500);
+                return;
+            }
+            else if (query.includes('cliente') || query.includes('client')) {
+                const msg = { es: 'Vamos a Clientes...', en: 'Going to Clients...', cat: 'Anem a Clients...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'clientes.html'; }, 1500);
+                return;
+            }
+            else if (query.includes('sobre') || query.includes('about')) {
+                const msg = { es: 'Vamos a Sobre mí...', en: 'Going to About me...', cat: 'Anem a Sobre mi...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'sobre.html'; }, 1500);
+                return;
+            }
+            else {
+                const generica = { es: 'Escribe el nombre de una sección para navegar.', en: 'Type a section name to navigate.', cat: 'Escriu el nom d\'una secció per navegar.' };
+                mostrarRespuesta(t(generica));
+            }
+        }
+    </script>
+</body>
+</html>

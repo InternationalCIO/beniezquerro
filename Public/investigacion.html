@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investigación · Beni Ezquerro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --font-display: 'Inter', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --color-texto: #2c2c2c;
+            --color-blanco: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-body);
+            background: #0a0a0a;
+            color: var(--color-blanco);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .page-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background:
+                linear-gradient(180deg, rgba(0,0,0,0.85) 0%, rgba(40,30,50,0.75) 100%),
+                url('images/proyectos/6vida_cotidiana_15.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100%;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 3rem;
+            min-height: 0;
+        }
+
+        /* === TABS === */
+        .tabs-container {
+            width: 100%;
+            max-width: 1100px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .tabs-header {
+            display: flex;
+            gap: 0;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .tab-btn {
+            position: relative;
+            padding: 1rem 2rem;
+            background: transparent;
+            border: none;
+            color: rgba(255,255,255,0.4);
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: transparent;
+            transition: background 0.3s ease;
+        }
+
+        .tab-btn:hover {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .tab-btn.active {
+            color: #fff;
+        }
+
+        .tab-btn.active::after {
+            background: linear-gradient(90deg, rgba(255,255,255,0.8), rgba(255,255,255,0.3));
+        }
+
+        .tab-count {
+            display: inline-block;
+            margin-left: 0.5rem;
+            font-size: 0.6rem;
+            opacity: 0.5;
+        }
+
+        /* === TAB CONTENT === */
+        .tabs-content {
+            flex: 1;
+            position: relative;
+            min-height: 0;
+        }
+
+        .tab-panel {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s;
+            overflow-y: auto;
+        }
+
+        .tab-panel.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* Scrollbar elegante */
+        .tab-panel::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        .tab-panel::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .tab-panel::-webkit-scrollbar-thumb {
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+        }
+
+        /* === LISTA DE ITEMS === */
+        .items-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            align-content: start;
+            height: 100%;
+        }
+
+        .item-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            background: rgba(255,255,255,0.06);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .item-row:hover {
+            background: rgba(255,255,255,0.12);
+            transform: translateX(4px);
+        }
+
+        .item-row.clickable {
+            cursor: pointer;
+        }
+
+        .item-year {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: rgba(255,255,255,0.4);
+            min-width: 38px;
+            padding-top: 0.15rem;
+        }
+
+        .item-info {
+            flex: 1;
+        }
+
+        .item-title {
+            font-size: 0.95rem;
+            font-weight: 400;
+            line-height: 1.4;
+            margin-bottom: 0.25rem;
+        }
+
+        .item-meta {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.5);
+        }
+
+        /* Badges de premio */
+        .premio-badge {
+            display: inline-block;
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            margin-right: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .premio-1 { background: rgba(255,215,0,0.25); color: #ffd700; }
+        .premio-2 { background: rgba(192,192,192,0.25); color: #c0c0c0; }
+        .premio-3 { background: rgba(205,127,50,0.25); color: #cd7f32; }
+        .premio-finalista { background: rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); }
+        .premio-mencion { background: rgba(147,112,219,0.25); color: #9370db; }
+
+        /* Panel de investigación - centrado */
+        .research-panel {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .research-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 3.5rem 4rem;
+            max-width: 600px;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.4s ease;
+        }
+
+        .research-card:hover {
+            background: rgba(255,255,255,0.12);
+            transform: scale(1.02);
+        }
+
+        .research-title {
+            font-size: 1.6rem;
+            font-weight: 300;
+            margin-bottom: 1rem;
+            line-height: 1.3;
+        }
+
+        .research-meta {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.6);
+            margin-bottom: 2rem;
+        }
+
+        .research-cta {
+            display: inline-block;
+            font-size: 0.8rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.5);
+            padding: 0.75rem 1.5rem;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 25px;
+            transition: all 0.3s;
+        }
+
+        .research-card:hover .research-cta {
+            color: #fff;
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        /* === PIE === */
+        .bottom-zone {
+            background: linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 100%);
+            padding-top: 0.5rem;
+            padding-bottom: 10vh;
+            flex-shrink: 0;
+        }
+
+        .prompt-zone {
+            position: relative;
+            padding: 0.6rem 1.5rem 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .prompt-zone .seccion-label {
+            position: absolute;
+            bottom: -1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.7);
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            text-align: center;
+        }
+
+        .response-zone {
+            text-align: center;
+            padding: 0.75rem 1.5rem;
+            color: rgba(255,255,255,0.9);
+            font-size: 0.95rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .response-zone.visible {
+            opacity: 1;
+        }
+
+        .prompt-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 95%;
+            max-width: 750px;
+            background: rgba(255,255,255,0.95);
+            border-radius: 50px;
+            padding: 0.5rem 1rem 0.5rem 1.5rem;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+        }
+
+        .menu-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+            flex-shrink: 0;
+        }
+
+        .menu-btn:hover { background: rgba(0,0,0,0.04); }
+
+        .menu-icon {
+            display: block;
+            width: 16px;
+            height: 1.5px;
+            background: #666;
+            position: relative;
+        }
+
+        .menu-icon::before,
+        .menu-icon::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 1.5px;
+            background: #666;
+            left: 0;
+        }
+
+        .menu-icon::before { top: -5px; }
+        .menu-icon::after { bottom: -5px; }
+
+        .prompt-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: var(--color-texto);
+            padding: 0.5rem 0;
+            outline: none;
+        }
+
+        .prompt-input::placeholder { color: #aaa; }
+
+        .lang-selector {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin-left: 0.5rem;
+            padding-left: 0.75rem;
+            border-left: 1px solid rgba(0,0,0,0.08);
+            flex-shrink: 0;
+        }
+
+        .lang-btn {
+            padding: 0.4rem 0.5rem;
+            border: none;
+            background: transparent;
+            color: #bbb;
+            font-family: var(--font-body);
+            font-size: 0.6rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn:hover { color: #666; }
+        .lang-btn.active { color: #333; font-weight: 500; }
+
+        /* === SIDEBAR === */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 320px;
+            height: 100%;
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transform: translateX(-100%);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar.open { transform: translateX(0); }
+
+        .sidebar-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .sidebar-overlay.open { opacity: 1; visibility: visible; }
+
+        .sidebar-header {
+            padding: 2.5rem 2rem 2rem;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .sidebar-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            color: #ffffff;
+            text-decoration: none;
+            line-height: 1.2;
+            text-shadow: 0 0 20px rgba(255,255,255,0.1);
+        }
+
+        .sidebar-title:hover { color: #E86A33; }
+
+        .sidebar-close {
+            width: 32px;
+            height: 32px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: transparent;
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.6);
+            cursor: pointer;
+            border-radius: 50%;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-close:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.4);
+            color: #fff;
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-link {
+            padding: 1rem 0;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 0.02em;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .sidebar-link::before {
+            content: '';
+            width: 0;
+            height: 1px;
+            background: #E86A33;
+            transition: width 0.3s;
+        }
+
+        .sidebar-link:hover {
+            color: #fff;
+            padding-left: 0.5rem;
+        }
+
+        .sidebar-link:hover::before { width: 20px; }
+
+        .sidebar-divider {
+            height: 1px;
+            background: transparent;
+            margin: 0.5rem 0;
+        }
+
+        .sidebar-footer {
+            padding: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .sidebar-tagline {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+            font-style: italic;
+            letter-spacing: 0.03em;
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            .items-list {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs-header {
+                justify-content: center;
+            }
+
+            .tab-btn {
+                padding: 0.6rem 1rem;
+                font-size: 0.65rem;
+            }
+        }
+
+        @media (max-height: 650px) {
+            .content {
+                padding: 1rem;
+            }
+
+            .tabs-header {
+                margin-bottom: 1rem;
+            }
+
+            .item-row {
+                padding: 0.5rem 0.75rem;
+            }
+
+            .item-title {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <div class="content">
+            <div class="tabs-container">
+                <!-- TABS HEADER -->
+                <div class="tabs-header">
+                    <button class="tab-btn active" data-tab="premios">
+                        <span data-i18n="tabPremios">Premios</span><span class="tab-count">10</span>
+                    </button>
+                    <button class="tab-btn" data-tab="publicaciones">
+                        <span data-i18n="tabPublicaciones">Publicaciones</span><span class="tab-count">7</span>
+                    </button>
+                    <button class="tab-btn" data-tab="investigacion">
+                        <span data-i18n="tabInvestigacion">Investigación</span>
+                    </button>
+                </div>
+
+                <!-- TABS CONTENT -->
+                <div class="tabs-content">
+                    <!-- PREMIOS -->
+                    <div class="tab-panel active" id="premios">
+                        <div class="items-list">
+                            <a href="proyecto.html?p=terrassa" class="item-row clickable">
+                                <span class="item-year">2024</span>
+                                <span class="premio-badge premio-1">1º</span>
+                                <div class="item-info">
+                                    <div class="item-title">Instituto + Ciclos formativos en Vilafant</div>
+                                    <div class="item-meta">Infraestructures de la Generalitat</div>
+                                </div>
+                            </a>
+                            <div class="item-row">
+                                <span class="item-year">2024</span>
+                                <span class="premio-badge premio-3">3º</span>
+                                <div class="item-info">
+                                    <div class="item-title">Escuela "Oliveres Mil·lenàries" en Ventalló</div>
+                                    <div class="item-meta">Infraestructures de la Generalitat</div>
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <span class="item-year">2024</span>
+                                <span class="premio-badge premio-finalista">Final</span>
+                                <div class="item-info">
+                                    <div class="item-title">66 viviendas de realojo en La Mina</div>
+                                    <div class="item-meta">INCASÒL · Barcelona</div>
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <span class="item-year">2024</span>
+                                <span class="premio-badge premio-finalista">Final</span>
+                                <div class="item-info">
+                                    <div class="item-title">Reforma Casa Lluvià</div>
+                                    <div class="item-meta">COAC · Manresa</div>
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <span class="item-year">2022</span>
+                                <span class="premio-badge premio-2">2º</span>
+                                <div class="item-info">
+                                    <div class="item-title">"Camí del bosc" parque urbano</div>
+                                    <div class="item-meta">Ayuntamiento de Sabadell</div>
+                                </div>
+                            </div>
+                            <a href="proyecto.html?p=terrassa" class="item-row clickable">
+                                <span class="item-year">2021</span>
+                                <span class="premio-badge premio-1">1º</span>
+                                <div class="item-info">
+                                    <div class="item-title">37 viviendas alquiler asequible Terrassa</div>
+                                    <div class="item-meta">INCASÒL</div>
+                                </div>
+                            </a>
+                            <div class="item-row">
+                                <span class="item-year">2021</span>
+                                <span class="premio-badge premio-finalista">Nom</span>
+                                <div class="item-info">
+                                    <div class="item-title">Parking vehículos ligeros Barcelona</div>
+                                    <div class="item-meta">Nominación ArchDaily</div>
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <span class="item-year">2020</span>
+                                <span class="premio-badge premio-mencion">Menc</span>
+                                <div class="item-info">
+                                    <div class="item-title">EUROPAN 15: La forma del agua</div>
+                                    <div class="item-meta">Sant Climent de Llobregat</div>
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <span class="item-year">2016</span>
+                                <span class="premio-badge premio-1">1º</span>
+                                <div class="item-info">
+                                    <div class="item-title">Hortus Conclusus</div>
+                                    <div class="item-meta">Festival Concéntrico · Logroño</div>
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <span class="item-year">2016</span>
+                                <span class="premio-badge premio-1">1º</span>
+                                <div class="item-info">
+                                    <div class="item-title">"Passatges Metropolitans"</div>
+                                    <div class="item-meta">AMB + IVM · Montcada i Reixac</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- PUBLICACIONES -->
+                    <div class="tab-panel" id="publicaciones">
+                        <div class="items-list">
+                            <div class="item-row">
+                                <span class="item-year">2023</span>
+                                <div class="item-info">
+                                    <div class="item-title">Nameless models</div>
+                                    <div class="item-meta">Exposición · Biennal AJAC + Casa de la Arquitectura</div>
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <span class="item-year">2023</span>
+                                <div class="item-info">
+                                    <div class="item-title">Habitatge social en context post-pandèmic</div>
+                                    <div class="item-meta">Ponencia · MODEL Festival Barcelona</div>
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <span class="item-year">2022</span>
+                                <div class="item-info">
+                                    <div class="item-title">Cedric Price: El precio de algunas técnicas...</div>
+                                    <div class="item-meta">Mesa redonda · ETSAB</div>
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <span class="item-year">2022</span>
+                                <div class="item-info">
+                                    <div class="item-title">Procesos de vivienda colectiva en Barcelona</div>
+                                    <div class="item-meta">Ponencia · Ministerio de Vivienda, Chile</div>
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <span class="item-year">2019</span>
+                                <div class="item-info">
+                                    <div class="item-title">EUROPAN 15</div>
+                                    <div class="item-meta">Catálogo equipos españoles premiados</div>
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <span class="item-year">2016</span>
+                                <div class="item-info">
+                                    <div class="item-title">Passatges. Espaces de transition pour la ville du 21e siècle</div>
+                                    <div class="item-meta">Publicación proyectos ganadores</div>
+                                </div>
+                            </div>
+                            <div class="item-row">
+                                <span class="item-year">2014</span>
+                                <div class="item-info">
+                                    <div class="item-title">LivingLabLOW3</div>
+                                    <div class="item-meta">Experiencias habitacionales · ETSAV</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- INVESTIGACIÓN -->
+                    <div class="tab-panel" id="investigacion">
+                        <div class="research-panel">
+                            <a href="proyecto.html?p=vidaquotidiana" class="research-card">
+                                <h2 class="research-title" data-i18n="researchTitle">La vida cotidiana explicada a través de la arquitectura</h2>
+                                <p class="research-meta" data-i18n="researchMeta">Barcelona · 2000-2020 · UPC</p>
+                                <span class="research-cta" data-i18n="researchCta">Ver proyecto</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-zone">
+            <div class="response-zone" id="response-zone"></div>
+            <div class="prompt-zone">
+                <span class="seccion-label" data-i18n="seccionLabel">Beni Ezquerro · Investigación</span>
+                <div class="prompt-wrapper">
+                    <button class="menu-btn" id="menu-btn">
+                        <span class="menu-icon"></span>
+                    </button>
+                    <input type="text" class="prompt-input" id="prompt-input" data-i18n="placeholder" placeholder="¿Qué necesitas?">
+                    <div class="lang-selector">
+                        <button class="lang-btn active">ES</button>
+                        <button class="lang-btn">EN</button>
+                        <button class="lang-btn">CAT</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="sidebar-title">Beni<br>Ezquerro</a>
+                <button class="sidebar-close" id="sidebar-close">×</button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="proyecto.html" class="sidebar-link" data-i18n="obra">Obra</a>
+                <a href="investigacion.html" class="sidebar-link" data-i18n="investigacion">Investigación</a>
+                <a href="clientes.html" class="sidebar-link" data-i18n="clientes">Clientes</a>
+                <div class="sidebar-divider"></div>
+                <a href="sobre.html" class="sidebar-link" data-i18n="sobreMi">Sobre mí</a>
+            </nav>
+            <div class="sidebar-footer">
+                <p class="sidebar-tagline" data-i18n="tagline">Práctica, investigación y docencia</p>
+            </div>
+        </aside>
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    </div>
+
+    <script>
+        // Traducciones
+        const i18n = {
+            // Tabs
+            tabPremios: { es: 'Premios', en: 'Awards', cat: 'Premis' },
+            tabPublicaciones: { es: 'Publicaciones', en: 'Publications', cat: 'Publicacions' },
+            tabInvestigacion: { es: 'Investigación', en: 'Research', cat: 'Recerca' },
+            // Sección
+            seccionLabel: { es: 'Beni Ezquerro · Investigación', en: 'Beni Ezquerro · Research', cat: 'Beni Ezquerro · Recerca' },
+            placeholder: { es: '¿Qué necesitas?', en: 'What do you need?', cat: 'Què necessites?' },
+            // Sidebar
+            obra: { es: 'Obra', en: 'Work', cat: 'Obra' },
+            investigacion: { es: 'Investigación', en: 'Research', cat: 'Recerca' },
+            clientes: { es: 'Clientes', en: 'Clients', cat: 'Clients' },
+            sobreMi: { es: 'Sobre mí', en: 'About me', cat: 'Sobre mi' },
+            tagline: { es: 'Práctica, investigación y docencia', en: 'Practice, research and teaching', cat: 'Pràctica, recerca i docència' },
+            // Investigación card
+            researchTitle: { es: 'La vida cotidiana explicada a través de la arquitectura', en: 'Everyday life explained through architecture', cat: 'La vida quotidiana explicada a través de l\'arquitectura' },
+            researchMeta: { es: 'Barcelona · 2000-2020 · UPC', en: 'Barcelona · 2000-2020 · UPC', cat: 'Barcelona · 2000-2020 · UPC' },
+            researchCta: { es: 'Ver proyecto', en: 'View project', cat: 'Veure projecte' }
+        };
+
+        let currentLang = localStorage.getItem('lang') || 'es';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+
+            // Actualizar botones
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent === lang.toUpperCase());
+            });
+
+            // Actualizar textos
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (i18n[key] && i18n[key][lang]) {
+                    if (el.tagName === 'INPUT') {
+                        el.placeholder = i18n[key][lang];
+                    } else {
+                        el.textContent = i18n[key][lang];
+                    }
+                }
+            });
+        }
+
+        // Función helper para traducir
+        function t(obj) {
+            return obj[currentLang] || obj.es;
+        }
+
+        // Mostrar respuesta
+        function mostrarRespuesta(texto) {
+            const responseZone = document.getElementById('response-zone');
+            responseZone.textContent = texto;
+            responseZone.classList.add('visible');
+            setTimeout(() => {
+                responseZone.classList.remove('visible');
+            }, 10000);
+        }
+
+        // Activar pestaña
+        function activarTab(tabId) {
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabPanels = document.querySelectorAll('.tab-panel');
+            tabBtns.forEach(b => b.classList.remove('active'));
+            tabPanels.forEach(p => p.classList.remove('active'));
+            const btn = document.querySelector(`.tab-btn[data-tab="${tabId}"]`);
+            const panel = document.getElementById(tabId);
+            if (btn) btn.classList.add('active');
+            if (panel) panel.classList.add('active');
+        }
+
+        // Inicializar
+        document.addEventListener('DOMContentLoaded', () => {
+            setLanguage(currentLang);
+
+            // Leer parámetro tab de URL
+            const params = new URLSearchParams(window.location.search);
+            const tab = params.get('tab');
+            if (tab) {
+                activarTab(tab);
+            }
+        });
+
+        // Botones de idioma
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                setLanguage(btn.textContent.toLowerCase());
+            });
+        });
+
+        // Sistema de tabs
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabPanels = document.querySelectorAll('.tab-panel');
+
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.dataset.tab;
+                activarTab(tabId);
+            });
+        });
+
+        // Procesar pregunta con Enter
+        document.getElementById('prompt-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                const query = this.value.trim().toLowerCase();
+                if (query) {
+                    procesarPregunta(query);
+                    this.value = '';
+                }
+            }
+        });
+
+        function procesarPregunta(query) {
+            // Navegación a pestañas
+            if (query.includes('premio') || query.includes('award') || query.includes('premi')) {
+                const msg = { es: 'Mostrando Premios...', en: 'Showing Awards...', cat: 'Mostrant Premis...' };
+                mostrarRespuesta(t(msg));
+                activarTab('premios');
+                return;
+            }
+            else if (query.includes('publicaci') || query.includes('publication')) {
+                const msg = { es: 'Mostrando Publicaciones...', en: 'Showing Publications...', cat: 'Mostrant Publicacions...' };
+                mostrarRespuesta(t(msg));
+                activarTab('publicaciones');
+                return;
+            }
+            // Navegación a secciones
+            else if (query.includes('obra') || query.includes('work') || query.includes('proyecto') || query.includes('project')) {
+                const msg = { es: 'Vamos a Obra...', en: 'Going to Work...', cat: 'Anem a Obra...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'proyecto.html'; }, 1500);
+                return;
+            }
+            else if (query.includes('cliente') || query.includes('client')) {
+                const msg = { es: 'Vamos a Clientes...', en: 'Going to Clients...', cat: 'Anem a Clients...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'clientes.html'; }, 1500);
+                return;
+            }
+            else if (query.includes('sobre') || query.includes('about')) {
+                const msg = { es: 'Vamos a Sobre mí...', en: 'Going to About me...', cat: 'Anem a Sobre mi...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'sobre.html'; }, 1500);
+                return;
+            }
+            else if (query.includes('contacto') || query.includes('contact') || query.includes('contacte')) {
+                const msg = { es: 'Vamos a Contacto...', en: 'Going to Contact...', cat: 'Anem a Contacte...' };
+                mostrarRespuesta(t(msg));
+                setTimeout(() => { window.location.href = 'contacto.html'; }, 1500);
+                return;
+            }
+            else {
+                const generica = { es: 'Escribe "premios", "publicaciones" u otra sección.', en: 'Type "awards", "publications" or another section.', cat: 'Escriu "premis", "publicacions" o una altra secció.' };
+                mostrarRespuesta(t(generica));
+            }
+        }
+
+        // Sidebar
+        const menuBtn = document.getElementById('menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const sidebarClose = document.getElementById('sidebar-close');
+
+        function toggleMenu(open) {
+            sidebar.classList.toggle('open', open);
+            sidebarOverlay.classList.toggle('open', open);
+        }
+
+        menuBtn.addEventListener('click', () => toggleMenu(true));
+        sidebarClose.addEventListener('click', () => toggleMenu(false));
+        sidebarOverlay.addEventListener('click', () => toggleMenu(false));
+    </script>
+</body>
+</html>

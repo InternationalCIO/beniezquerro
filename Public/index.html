@@ -1,0 +1,1060 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BENI EZQUERRO | Arquitectura</title>
+    <meta name="description" content="Beni Ezquerro. Arquitectura construida y consciente. Práctica, investigación y docencia.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --color-naranja: #E86A33;
+            --color-magenta: #C94277;
+            --color-violeta: #7B4B94;
+            --color-verde: #6B8E6F;
+            --color-texto: #1a1a1a;
+            --color-blanco: #ffffff;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: var(--font-body);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ============================================
+           CONTENEDOR PRINCIPAL
+           ============================================ */
+
+        .home-container {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: #f5f5f5;
+        }
+
+        /* Fondo con imagen */
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-size: cover;
+            background-position: center;
+            transition: opacity 0.6s ease;
+        }
+
+        .bg-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(
+                180deg,
+                rgba(255,255,255,0.1) 0%,
+                rgba(0,0,0,0.1) 50%,
+                rgba(0,0,0,0.4) 100%
+            );
+        }
+
+        /* ============================================
+           SELECTOR DE IDIOMA (dentro del prompt)
+           ============================================ */
+
+        .lang-selector {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            margin-left: 0.5rem;
+            padding-left: 0.75rem;
+            border-left: 1px solid rgba(0,0,0,0.08);
+            flex-shrink: 0;
+        }
+
+        .lang-btn {
+            padding: 0.4rem 0.5rem;
+            border: none;
+            background: transparent;
+            color: #bbb;
+            font-family: var(--font-body);
+            font-size: 0.6rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn:hover {
+            color: #666;
+        }
+
+        .lang-btn.active {
+            color: var(--color-texto);
+            font-weight: 500;
+        }
+
+        /* ============================================
+           CENTRO: NOMBRE + LEMA + PROMPT
+           ============================================ */
+
+        .center-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 2rem;
+            width: 100%;
+            margin-top: -8vh;
+        }
+
+        .brand-wrapper {
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem 2.5rem;
+            border-radius: 16px;
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
+
+        .brand-name {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 5vw, 2.8rem);
+            font-weight: 500;
+            letter-spacing: 0.03em;
+            color: var(--color-blanco);
+            margin-bottom: 0.25rem;
+            line-height: 1.1;
+        }
+
+        .brand-tagline {
+            font-family: var(--font-display);
+            font-size: clamp(0.9rem, 2vw, 1.2rem);
+            font-weight: 400;
+            font-style: italic;
+            color: rgba(255,255,255,0.9);
+            letter-spacing: 0.02em;
+        }
+
+        /* Prompt - igual que el pie de otras páginas */
+        .prompt-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            width: 95%;
+            max-width: 750px;
+            margin: 0 auto;
+            background: rgba(255,255,255,0.95);
+            border-radius: 50px;
+            padding: 0.5rem 1rem 0.5rem 1.5rem;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .prompt-wrapper:focus-within {
+            background: rgba(255,255,255,0.98);
+            box-shadow: 0 6px 35px rgba(0,0,0,0.12);
+        }
+
+        .menu-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: background 0.2s;
+            flex-shrink: 0;
+        }
+
+        .menu-btn:hover {
+            background: rgba(0,0,0,0.04);
+        }
+
+        .menu-icon {
+            display: block;
+            width: 16px;
+            height: 1.5px;
+            background: #666;
+            position: relative;
+        }
+
+        .menu-icon::before,
+        .menu-icon::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 1.5px;
+            background: #666;
+            left: 0;
+        }
+
+        .menu-icon::before { top: -5px; }
+        .menu-icon::after { bottom: -5px; }
+
+        .prompt-input {
+            flex: 1;
+            border: none;
+            background: transparent;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 300;
+            color: var(--color-texto);
+            padding: 0.5rem 0;
+            outline: none;
+        }
+
+        .prompt-input::placeholder {
+            color: #aaa;
+        }
+
+        .voice-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            color: #aaa;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .voice-btn svg {
+            width: 16px;
+            height: 16px;
+        }
+
+        .voice-btn:hover {
+            background: rgba(0,0,0,0.04);
+            color: #666;
+        }
+
+        /* Zona de respuesta */
+        .response-zone {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: calc(100% + 1rem);
+            width: 90%;
+            max-width: 500px;
+            padding: 1rem 1.5rem;
+            background: rgba(0,0,0,0.7);
+            border-radius: 16px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--color-blanco);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            backdrop-filter: blur(10px);
+        }
+
+        .response-zone.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* ============================================
+           PASTILLA INFO PROYECTO + NAVEGACIÓN (izquierda)
+           ============================================ */
+
+        .proyecto-pill {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            z-index: 50;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(20px);
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            color: var(--color-blanco);
+            max-width: 340px;
+            transition: all 0.4s ease;
+        }
+
+        .proyecto-pill.fade-out {
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        .proyecto-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .proyecto-titulo {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 500;
+            line-height: 1.2;
+            color: var(--color-blanco);
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .proyecto-titulo:hover {
+            opacity: 0.8;
+        }
+
+        .proyecto-nav-arrows {
+            display: flex;
+            gap: 0.2rem;
+            flex-shrink: 0;
+        }
+
+        .nav-arrow {
+            width: 24px;
+            height: 24px;
+            border: none;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            color: var(--color-blanco);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-arrow:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .proyecto-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .proyecto-lugar {
+            font-size: 0.7rem;
+            opacity: 0.7;
+        }
+
+        .proyecto-premio {
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: var(--color-naranja);
+        }
+
+        .foto-controls {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .nav-dots {
+            display: flex;
+            gap: 5px;
+        }
+
+        .nav-dot {
+            width: 5px;
+            height: 5px;
+            border: 1.5px solid rgba(255,255,255,0.5);
+            border-radius: 50%;
+            background: transparent;
+            cursor: pointer;
+            transition: all 0.2s;
+            padding: 0;
+        }
+
+        .nav-dot:hover {
+            border-color: var(--color-blanco);
+        }
+
+        .nav-dot.active {
+            background: var(--color-blanco);
+            border-color: var(--color-blanco);
+        }
+
+        .play-pause-btn {
+            width: 18px;
+            height: 18px;
+            border: none;
+            background: rgba(255,255,255,0.15);
+            border-radius: 50%;
+            color: var(--color-blanco);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+        }
+
+        .play-pause-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .play-pause-btn svg {
+            width: 7px;
+            height: 7px;
+        }
+
+        /* ============================================
+           SIDEBAR MENU
+           ============================================ */
+
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 320px;
+            height: 100%;
+            background: rgba(15, 15, 15, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transform: translateX(-100%);
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar.open {
+            transform: translateX(0);
+        }
+
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .sidebar-overlay.open {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .sidebar-header {
+            padding: 2.5rem 2rem 2rem;
+            background: #0a0a0a;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .sidebar-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+            color: #ffffff;
+            text-decoration: none;
+            line-height: 1.2;
+            text-shadow: 0 0 20px rgba(255,255,255,0.1);
+        }
+
+        .sidebar-title:hover {
+            color: var(--color-naranja);
+        }
+
+        .sidebar-close {
+            width: 32px;
+            height: 32px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: transparent;
+            font-size: 1.2rem;
+            color: rgba(255,255,255,0.6);
+            cursor: pointer;
+            border-radius: 50%;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .sidebar-close:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.4);
+            color: var(--color-blanco);
+        }
+
+        .sidebar-nav {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .sidebar-link {
+            padding: 1rem 0;
+            color: rgba(255,255,255,0.7);
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 300;
+            letter-spacing: 0.02em;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .sidebar-link::before {
+            content: '';
+            width: 0;
+            height: 1px;
+            background: var(--color-naranja);
+            transition: width 0.3s;
+        }
+
+        .sidebar-link:hover {
+            color: var(--color-blanco);
+            padding-left: 0.5rem;
+        }
+
+        .sidebar-link:hover::before {
+            width: 20px;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background: transparent;
+            margin: 0.5rem 0;
+        }
+
+        .sidebar-footer {
+            padding: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .sidebar-tagline {
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.4);
+            font-style: italic;
+            letter-spacing: 0.03em;
+        }
+
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+
+        @media (max-width: 768px) {
+            .proyecto-pill {
+                left: 1rem;
+                right: 1rem;
+                bottom: 1.5rem;
+                max-width: none;
+            }
+
+            .proyecto-header {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .proyecto-nav-arrows {
+                align-self: flex-end;
+                margin-top: -2rem;
+            }
+
+        }
+    </style>
+
+    <script>
+        // ================================================================
+        // SISTEMA TRILINGÜE
+        // ================================================================
+
+        let currentLang = localStorage.getItem('lang') || 'es';
+
+        const TEXTOS = {
+            introPlaceholder: {
+                es: 'Pulsa Enter para descubrirme...',
+                en: 'Press Enter to discover me...',
+                cat: 'Prem Enter per descobrir-me...'
+            },
+            placeholder: {
+                es: '¿Qué quieres saber?',
+                en: 'What would you like to know?',
+                cat: 'Què vols saber?'
+            },
+            tagline: {
+                es: 'Arquitectura construida y consciente',
+                en: 'Built and conscious architecture',
+                cat: 'Arquitectura construïda i conscient'
+            },
+            verMas: {
+                es: 'Ver detalle',
+                en: 'See detail',
+                cat: 'Veure detall'
+            },
+            obra: { es: 'Obra', en: 'Work', cat: 'Obra' },
+            investigacion: { es: 'Investigación', en: 'Research', cat: 'Recerca' },
+            docencia: { es: 'Docencia', en: 'Teaching', cat: 'Docència' },
+            clientes: { es: 'Clientes', en: 'Clients', cat: 'Clients' },
+            sobre: { es: 'Sobre mí', en: 'About me', cat: 'Sobre mi' },
+            sidebarTagline: {
+                es: 'Práctica, investigación y docencia',
+                en: 'Practice, research and teaching',
+                cat: 'Pràctica, recerca i docència'
+            },
+            respuestas: {
+                hola: {
+                    es: 'Hola. Soy el asistente de Beni Ezquerro. ¿En qué puedo ayudarte?',
+                    en: 'Hello. I\'m Beni Ezquerro\'s assistant. How can I help you?',
+                    cat: 'Hola. Soc l\'assistent de Beni Ezquerro. En què puc ajudar-te?'
+                },
+                beni: {
+                    es: 'Beni Ezquerro es arquitecta radicada en Barcelona. Combina práctica espacial, investigación crítica y docencia en la ETSAB.',
+                    en: 'Beni Ezquerro is an architect based in Barcelona. She combines spatial practice, critical research, and teaching at ETSAB.',
+                    cat: 'Beni Ezquerro és arquitecta radicada a Barcelona. Combina pràctica espacial, recerca crítica i docència a l\'ETSAB.'
+                },
+                default: {
+                    es: 'Puedo contarte sobre su obra, investigación, docencia, o el colectivo TEXTUAL.',
+                    en: 'I can tell you about her work, research, teaching, or the TEXTUAL collective.',
+                    cat: 'Puc explicar-te sobre la seva obra, recerca, docència, o el col·lectiu TEXTUAL.'
+                }
+            }
+        };
+
+        const PROYECTOS = [
+            {
+                id: 'terrassa',
+                imagenes: [
+                    'images/proyectos/terrasa_6.png',
+                    'images/proyectos/terrasa_1.jpg',
+                    'images/proyectos/terrasa_4.jpg',
+                    'images/proyectos/terrasa_2.jpg',
+                    'images/proyectos/terrasa_3.jpg',
+                    'images/proyectos/terrasa_5.png'
+                ],
+                titulo: {
+                    es: '37 Viviendas de alquiler asequible',
+                    en: '37 Affordable Housing Units',
+                    cat: '37 Habitatges de lloguer assequible'
+                },
+                lugar: { es: 'Terrassa · 2021', en: 'Terrassa · 2021', cat: 'Terrassa · 2021' },
+                premio: { es: '1er Premio INCASÒL', en: '1st Prize INCASÒL', cat: '1r Premi INCASÒL' },
+                tipo: { es: 'Obra', en: 'Work', cat: 'Obra' },
+                color: '#6B8E6F'
+            },
+            {
+                id: 'vidaquotidiana',
+                imagenes: [
+                    'images/proyectos/6vida_cotidiana_15.jpg',
+                    'images/proyectos/Vida_cotidiana_1.jpg',
+                    'images/proyectos/vida_cotidiana_2.jpg',
+                    'images/proyectos/vida_cotidiana_3.jpg',
+                    'images/proyectos/vida_cotidiana_4.jpg',
+                    'images/proyectos/vida_cotidiana_5.jpg'
+                ],
+                titulo: {
+                    es: 'La vida quotidiana',
+                    en: 'Everyday Life',
+                    cat: 'La vida quotidiana'
+                },
+                lugar: { es: 'Barcelona · 2000-2020', en: 'Barcelona · 2000-2020', cat: 'Barcelona · 2000-2020' },
+                premio: { es: 'Investigación UPC', en: 'UPC Research', cat: 'Recerca UPC' },
+                tipo: { es: 'Investigación', en: 'Research', cat: 'Recerca' },
+                color: '#7B4B94'
+            }
+        ];
+
+        let currentIndex = 0;
+        let currentImageIndex = 0;
+        let imageInterval = null;
+        let isPlaying = true;
+
+        function t(obj) {
+            if (typeof obj === 'string') return TEXTOS[obj]?.[currentLang] || obj;
+            return obj[currentLang] || obj.es;
+        }
+
+        function cambiarIdioma(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            document.documentElement.lang = lang === 'cat' ? 'ca' : lang;
+
+            // UI
+            document.getElementById('prompt-input').placeholder = t('placeholder');
+            document.getElementById('brand-tagline').textContent = t('tagline');
+            document.getElementById('sidebar-tagline').textContent = t('sidebarTagline');
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                el.textContent = t(el.dataset.i18n);
+            });
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+
+            actualizarProyecto();
+        }
+
+        function actualizarProyecto() {
+            const p = PROYECTOS[currentIndex];
+            const titulo = document.getElementById('proyecto-titulo');
+            titulo.textContent = t(p.titulo);
+            titulo.href = `proyecto.html?p=${p.id}`;
+            document.getElementById('proyecto-lugar').textContent = t(p.lugar);
+            document.getElementById('proyecto-premio').textContent = t(p.premio);
+            document.getElementById('proyecto-premio').style.color = p.color;
+        }
+
+        function cambiarImagen() {
+            const p = PROYECTOS[currentIndex];
+            const bgImage = document.getElementById('bg-image');
+
+            currentImageIndex = (currentImageIndex + 1) % p.imagenes.length;
+
+            bgImage.style.opacity = '0';
+            setTimeout(() => {
+                bgImage.style.backgroundImage = `url('${p.imagenes[currentImageIndex]}')`;
+                bgImage.style.opacity = '1';
+                actualizarImageDots();
+            }, 300);
+        }
+
+        function iniciarRotacionImagenes() {
+            if (imageInterval) clearInterval(imageInterval);
+            if (isPlaying) {
+                imageInterval = setInterval(cambiarImagen, 5000);
+            }
+        }
+
+        function toggleAutoplay() {
+            isPlaying = !isPlaying;
+            const pauseIcon = document.getElementById('pause-icon');
+            const playIcon = document.getElementById('play-icon');
+
+            if (isPlaying) {
+                pauseIcon.style.display = 'block';
+                playIcon.style.display = 'none';
+                iniciarRotacionImagenes();
+            } else {
+                pauseIcon.style.display = 'none';
+                playIcon.style.display = 'block';
+                if (imageInterval) clearInterval(imageInterval);
+            }
+        }
+
+        function actualizarImageDots() {
+            const p = PROYECTOS[currentIndex];
+            document.querySelectorAll('.nav-dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentImageIndex);
+            });
+        }
+
+        function cambiarProyecto(index) {
+            if (index < 0) index = PROYECTOS.length - 1;
+            if (index >= PROYECTOS.length) index = 0;
+            currentIndex = index;
+            currentImageIndex = 0;
+
+            const p = PROYECTOS[index];
+            const pill = document.getElementById('proyecto-pill');
+            const bgImage = document.getElementById('bg-image');
+
+            // Fade out
+            pill.classList.add('fade-out');
+            bgImage.style.opacity = '0';
+
+            setTimeout(() => {
+                // Cambiar imagen (primera del proyecto)
+                bgImage.style.backgroundImage = `url('${p.imagenes[0]}')`;
+                bgImage.style.opacity = '1';
+
+                // Actualizar textos
+                actualizarProyecto();
+
+                // Regenerar dots para las imágenes del proyecto
+                generarNavDots();
+
+                pill.classList.remove('fade-out');
+
+                // Reiniciar rotación
+                iniciarRotacionImagenes();
+            }, 400);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (document.activeElement.tagName === 'INPUT') return;
+            const p = PROYECTOS[currentIndex];
+            if (e.key === 'ArrowRight') irAImagen((currentImageIndex + 1) % p.imagenes.length);
+            if (e.key === 'ArrowLeft') irAImagen((currentImageIndex - 1 + p.imagenes.length) % p.imagenes.length);
+        });
+
+        function generarNavDots() {
+            const container = document.getElementById('nav-dots');
+            const p = PROYECTOS[currentIndex];
+            container.innerHTML = '';
+            p.imagenes.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'nav-dot' + (i === currentImageIndex ? ' active' : '');
+                dot.onclick = () => irAImagen(i);
+                container.appendChild(dot);
+            });
+        }
+
+        function irAImagen(index) {
+            const p = PROYECTOS[currentIndex];
+            const bgImage = document.getElementById('bg-image');
+
+            currentImageIndex = index;
+            bgImage.style.opacity = '0';
+            setTimeout(() => {
+                bgImage.style.backgroundImage = `url('${p.imagenes[index]}')`;
+                bgImage.style.opacity = '1';
+                actualizarImageDots();
+            }, 300);
+
+            // Reiniciar el intervalo
+            iniciarRotacionImagenes();
+        }
+
+        let introMode = true;
+
+        function iniciarCarrusel() {
+            if (!introMode) return;
+            introMode = false;
+
+            const bgImage = document.getElementById('bg-image');
+            const pill = document.getElementById('proyecto-pill');
+            const promptInput = document.getElementById('prompt-input');
+
+            bgImage.style.opacity = '0';
+            setTimeout(() => {
+                bgImage.style.backgroundImage = `url('${PROYECTOS[0].imagenes[0]}')`;
+                bgImage.style.opacity = '1';
+                pill.style.opacity = '1';
+                promptInput.placeholder = t('placeholder');
+                iniciarRotacionImagenes();
+            }, 600);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            generarNavDots();
+            cambiarIdioma(currentLang);
+            actualizarProyecto();
+
+            // Intro: mostrar foto personal primero
+            const bgImage = document.getElementById('bg-image');
+            const pill = document.getElementById('proyecto-pill');
+            const promptInput = document.getElementById('prompt-input');
+
+            bgImage.style.backgroundImage = `url('images/beni1.jpg')`;
+            pill.style.opacity = '0';
+            pill.style.transition = 'opacity 0.6s ease';
+
+            // Placeholder de intro
+            promptInput.placeholder = t('introPlaceholder');
+
+            // Poner foco en el prompt
+            promptInput.focus();
+        });
+    </script>
+</head>
+<body>
+    <div class="home-container">
+
+        <!-- Fondo con imagen del proyecto -->
+        <div class="bg-image" id="bg-image" style="background-image: url('images/beni1.jpg'); opacity: 1;"></div>
+        <div class="bg-overlay"></div>
+
+        <!-- Centro: Nombre + Lema + Prompt -->
+        <div class="center-content">
+            <div class="brand-wrapper">
+                <h1 class="brand-name">Beni Ezquerro</h1>
+                <p class="brand-tagline" id="brand-tagline">Arquitectura construida y consciente</p>
+            </div>
+
+            <div class="prompt-wrapper">
+                <button class="menu-btn" id="menu-btn" aria-label="Menú">
+                    <span class="menu-icon"></span>
+                </button>
+                <input
+                    type="text"
+                    class="prompt-input"
+                    id="prompt-input"
+                    placeholder="¿Qué quieres saber?"
+                    maxlength="100"
+                    autocomplete="off"
+                >
+                <button class="voice-btn" aria-label="Voz">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                        <line x1="12" y1="19" x2="12" y2="23"></line>
+                        <line x1="8" y1="23" x2="16" y2="23"></line>
+                    </svg>
+                </button>
+                <!-- Selector de idioma -->
+                <div class="lang-selector">
+                    <button class="lang-btn active" data-lang="es" onclick="cambiarIdioma('es')">ES</button>
+                    <button class="lang-btn" data-lang="en" onclick="cambiarIdioma('en')">EN</button>
+                    <button class="lang-btn" data-lang="cat" onclick="cambiarIdioma('cat')">CAT</button>
+                </div>
+            </div>
+
+            <div class="response-zone" id="response-zone"></div>
+        </div>
+
+        <!-- Pastilla info proyecto + navegación -->
+        <div class="proyecto-pill" id="proyecto-pill">
+            <div class="proyecto-header">
+                <a href="proyecto.html?p=terrassa" class="proyecto-titulo" id="proyecto-titulo">37 Viviendas de alquiler asequible</a>
+                <div class="proyecto-nav-arrows">
+                    <button class="nav-arrow" onclick="cambiarProyecto(currentIndex - 1)" title="Proyecto anterior">‹</button>
+                    <button class="nav-arrow" onclick="cambiarProyecto(currentIndex + 1)" title="Proyecto siguiente">›</button>
+                </div>
+            </div>
+            <div class="proyecto-info">
+                <span class="proyecto-lugar" id="proyecto-lugar">Terrassa · 2021</span>
+                <span class="proyecto-premio" id="proyecto-premio">1er Premio INCASÒL</span>
+            </div>
+            <div class="foto-controls">
+                <div class="nav-dots" id="nav-dots"></div>
+                <button class="play-pause-btn" id="play-pause-btn" onclick="toggleAutoplay()" title="Pausar/Reproducir">
+                    <svg id="pause-icon" viewBox="0 0 24 24" fill="currentColor">
+                        <rect x="6" y="4" width="4" height="16"></rect>
+                        <rect x="14" y="4" width="4" height="16"></rect>
+                    </svg>
+                    <svg id="play-icon" viewBox="0 0 24 24" fill="currentColor" style="display:none;">
+                        <polygon points="5,3 19,12 5,21"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="sidebar-title">Beni<br>Ezquerro</a>
+                <button class="sidebar-close" id="sidebar-close">×</button>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="proyecto.html" class="sidebar-link" data-i18n="obra">Obra</a>
+                <a href="investigacion.html" class="sidebar-link" data-i18n="investigacion">Investigación</a>
+                <a href="clientes.html" class="sidebar-link" data-i18n="clientes">Clientes</a>
+                <div class="sidebar-divider"></div>
+                <a href="sobre.html" class="sidebar-link" data-i18n="sobre">Sobre mí</a>
+            </nav>
+            <div class="sidebar-footer">
+                <p class="sidebar-tagline" id="sidebar-tagline">Práctica, investigación y docencia</p>
+            </div>
+        </aside>
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    </div>
+
+    <script>
+        // Menu
+        const menuBtn = document.getElementById('menu-btn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const sidebarClose = document.getElementById('sidebar-close');
+
+        function toggleMenu(open) {
+            sidebar.classList.toggle('open', open);
+            sidebarOverlay.classList.toggle('open', open);
+        }
+
+        menuBtn.addEventListener('click', () => toggleMenu(true));
+        sidebarClose.addEventListener('click', () => toggleMenu(false));
+        sidebarOverlay.addEventListener('click', () => toggleMenu(false));
+
+        // Prompt
+        const promptInput = document.getElementById('prompt-input');
+        const responseZone = document.getElementById('response-zone');
+
+        promptInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                // En modo intro, Enter sin texto también activa
+                if (introMode) {
+                    iniciarCarrusel();
+                    promptInput.value = '';
+                    return;
+                }
+                const query = promptInput.value.trim();
+                if (query) showResponse(query);
+            }
+        });
+
+        function showResponse(query) {
+            // Si estamos en intro, activar carrusel
+            if (introMode) {
+                iniciarCarrusel();
+                promptInput.value = '';
+                return;
+            }
+
+            const q = query.toLowerCase();
+
+            // Navegación por palabras clave
+            if (q.includes('proyecto') || q.includes('obra') || q.includes('work')) {
+                window.location.href = 'proyecto.html';
+                return;
+            }
+            if (q.includes('investigacion') || q.includes('investigació') || q.includes('research')) {
+                window.location.href = 'investigacion.html';
+                return;
+            }
+            if (q.includes('cliente') || q.includes('client')) {
+                window.location.href = 'clientes.html';
+                return;
+            }
+            if (q.includes('sobre') || q.includes('about') || q.includes('contacto') || q.includes('contact')) {
+                window.location.href = 'sobre.html';
+                return;
+            }
+
+            let key = 'default';
+            if (q.includes('hola') || q.includes('hello')) key = 'hola';
+            else if (q.includes('beni') || q.includes('ezquerro') || q.includes('who') || q.includes('quién')) key = 'beni';
+
+            responseZone.textContent = TEXTOS.respuestas[key][currentLang];
+            responseZone.classList.add('visible');
+            promptInput.value = '';
+
+            setTimeout(() => responseZone.classList.remove('visible'), 6000);
+        }
+
+        // INDeeX Links
+        document.querySelectorAll('[data-tu-command]').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                toggleMenu(false);
+            });
+        });
+    </script>
+</body>
+</html>
